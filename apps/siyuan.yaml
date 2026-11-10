@@ -1,0 +1,20 @@
+schema: 2
+id: siyuan
+name: SiYuan
+category: productivity
+description:
+  de: "Notizen und Wissensdatenbank mit Blöcken und Verknüpfungen."
+  en: "Notes and knowledge base with blocks and links."
+website: https://b3log.org/siyuan/
+web: {port: 6806, public_port: 8318}
+login: {password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: b3log/siyuan:v3.8.10
+    volumes:
+      - {container: /siyuan/workspace, appdata: workspace}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+    command: ["--workspace=/siyuan/workspace/", "--accessAuthCode={SECRET_ADMIN}"]

@@ -1,0 +1,19 @@
+schema: 2
+id: ddns-updater
+name: DDNS Updater
+category: network
+description:
+  de: "Hält DNS-Einträge bei über 50 Anbietern aktuell."
+  en: "Keeps DNS records up to date at more than 50 providers."
+notes:
+  de: "Anbieter in /mnt/user/appdata/ddns-updater/data/config.json eintragen."
+  en: "Configure providers in /mnt/user/appdata/ddns-updater/data/config.json."
+web: {port: 8000, public_port: 8347}
+services:
+  app:
+    image: qmcgaw/ddns-updater:v2.10.0
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /updater/data, appdata: data}
+    environment:
+      TZ: "{TZ}"

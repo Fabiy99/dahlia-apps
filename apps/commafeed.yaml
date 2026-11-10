@@ -1,0 +1,18 @@
+schema: 2
+id: commafeed
+name: CommaFeed
+category: productivity
+description:
+  de: "RSS-Reader im Stil von Google Reader."
+  en: "RSS reader in the style of Google Reader."
+notes:
+  de: "Standard-Login admin / admin, sofort ändern."
+  en: "Default login admin / admin, change it right away."
+web: {port: 8082, public_port: 8323}
+services:
+  app:
+    image: athou/commafeed:7.4.1-h2
+    volumes:
+      - {container: /commafeed/data, appdata: data}
+    environment:
+      TZ: "{TZ}"

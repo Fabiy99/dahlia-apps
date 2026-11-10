@@ -1,0 +1,29 @@
+schema: 2
+id: slskd
+name: slskd
+category: downloads
+description:
+  de: "Soulseek-Client mit Web-Oberfläche für Musik."
+  en: "Soulseek client with web interface for music."
+notes:
+  de: "Soulseek-Zugangsdaten in den Einstellungen eintragen."
+  en: "Enter your Soulseek credentials in the settings."
+web: {port: 5030, public_port: 8311}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: slskd/slskd:0.26.2
+    user: "{PUID}:{PGID}"
+    lan_ports:
+      - {container: 50300, host: 50300, protocol: tcp}
+    volumes:
+      - {container: /app, appdata: data}
+      - {container: /music, share: music, readonly: true}
+      - {container: /downloads, share: downloads}
+    environment:
+      SLSKD_REMOTE_CONFIGURATION: "true"
+      SLSKD_USERNAME: "admin"
+      SLSKD_PASSWORD: "{SECRET_ADMIN}"
+      SLSKD_SHARED_DIR: "/music"
+      SLSKD_DOWNLOADS_DIR: "/downloads"
+      TZ: "{TZ}"

@@ -1,0 +1,21 @@
+schema: 2
+id: rdtclient
+name: RDT Client
+category: downloads
+description:
+  de: "Lädt Torrents über Real-Debrid, AllDebrid oder Premiumize."
+  en: "Downloads torrents through Real-Debrid, AllDebrid or Premiumize."
+notes:
+  de: "Der erste Login legt das Konto an."
+  en: "The first login creates the account."
+web: {port: 6500, public_port: 8312}
+services:
+  app:
+    image: rogerfar/rdtclient:2.0.143
+    volumes:
+      - {container: /data/db, appdata: db}
+      - {container: /data/downloads, share: downloads}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

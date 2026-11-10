@@ -1,0 +1,16 @@
+schema: 2
+id: flame
+name: Flame
+category: home
+description:
+  de: "Startseite mit Apps und Lesezeichen, im Browser bearbeitbar."
+  en: "Start page with apps and bookmarks, editable in the browser."
+web: {port: 5005, public_port: 8339}
+login: {password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: pawelmalak/flame:2.4.0
+    volumes:
+      - {container: /app/data, appdata: data}
+    environment:
+      PASSWORD: "{SECRET_ADMIN}"

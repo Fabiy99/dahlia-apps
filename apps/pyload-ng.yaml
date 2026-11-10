@@ -1,0 +1,21 @@
+schema: 2
+id: pyload-ng
+name: pyLoad
+category: downloads
+description:
+  de: "Download-Manager für Filehoster."
+  en: "Download manager for file hosters."
+notes:
+  de: "Standard-Login pyload / pyload, sofort ändern."
+  en: "Default login pyload / pyload, change it right away."
+web: {port: 8000, public_port: 8313}
+services:
+  app:
+    image: ghcr.io/linuxserver/pyload-ng:version-0.5.0b3.dev102
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /downloads, share: downloads}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

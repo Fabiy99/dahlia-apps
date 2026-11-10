@@ -30,7 +30,8 @@ def is_calver(tag: str) -> bool:
 
 def pinned(tag: str) -> bool:
     """A tag that names one release: at least major.minor, or a date."""
-    return bool(re.search(r"\d+\.\d+", tag) or re.search(r"\d{6,}", tag))
+    return bool(re.search(r"\d+\.\d+", tag) or re.search(r"\d{6,}", tag)
+                or re.search(r"\d{4}-\d{2}-\d{2}", tag))
 
 
 def newest(current: str, candidates: list[str], policy: str = "minor") -> str | None:

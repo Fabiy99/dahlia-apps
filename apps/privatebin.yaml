@@ -1,0 +1,15 @@
+schema: 2
+id: privatebin
+name: PrivateBin
+category: tools
+description:
+  de: "Verschlüsselter Pastebin, der Server sieht den Inhalt nicht."
+  en: "Encrypted pastebin, the server never sees the content."
+website: https://privatebin.info/
+web: {port: 8080, public_port: 8331}
+services:
+  app:
+    image: privatebin/nginx-fpm-alpine:2.1.1
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /srv/data, appdata: data}

@@ -1,0 +1,26 @@
+schema: 2
+id: healthchecks
+name: Healthchecks
+category: monitoring
+description:
+  de: "Meldet, wenn Cronjobs und Backups ausbleiben."
+  en: "Alerts when cron jobs and backups stop checking in."
+notes:
+  de: "Über https://healthchecks.<Domain> aufrufen, damit Links und Anmeldung stimmen."
+  en: "Open it at https://healthchecks.<domain> so links and login work."
+web: {port: 8000, public_port: 8340}
+login: {user: "admin@example.com", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: ghcr.io/linuxserver/healthchecks:version-v5.0.3
+    volumes:
+      - {container: /config, appdata: config}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      SITE_ROOT: "https://healthchecks.{DOMAIN}"
+      SUPERUSER_EMAIL: "admin@example.com"
+      SUPERUSER_PASSWORD: "{SECRET_ADMIN}"
+      SECRET_KEY: "{SECRET_KEY}"
+      REGENERATE_SETTINGS: "True"

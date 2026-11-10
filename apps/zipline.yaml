@@ -1,0 +1,32 @@
+schema: 2
+id: zipline
+name: Zipline
+category: tools
+description:
+  de: "Dateien, Screenshots und Kurzlinks teilen (ShareX-kompatibel)."
+  en: "Share files, screenshots and short links (ShareX compatible)."
+website: https://zipline.diced.sh/
+notes:
+  de: "Der erste Aufruf legt das Admin-Konto an."
+  en: "The first visit creates the admin account."
+web: {port: 3000, public_port: 8330}
+services:
+  app:
+    image: ghcr.io/diced/zipline:4.8.3
+    depends_on: [db]
+    volumes:
+      - {container: /zipline/uploads, appdata: uploads}
+      - {container: /zipline/public, appdata: public}
+    environment:
+      DATABASE_URL: "postgres://zipline:{SECRET_DB}@db:5432/zipline"
+      CORE_SECRET: "{SECRET_CORE}"
+      CORE_HOSTNAME: "0.0.0.0"
+      CORE_PORT: "3000"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "zipline"
+      POSTGRES_USER: "zipline"
+      POSTGRES_PASSWORD: "{SECRET_DB}"

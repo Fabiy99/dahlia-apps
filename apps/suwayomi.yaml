@@ -1,0 +1,15 @@
+schema: 2
+id: suwayomi
+name: Suwayomi
+category: books
+description:
+  de: "Manga-Leser und -Downloader mit Erweiterungen (Tachiyomi-kompatibel)."
+  en: "Manga reader and downloader with extensions (Tachiyomi compatible)."
+web: {port: 4567, public_port: 8309}
+services:
+  app:
+    image: ghcr.io/suwayomi/tachidesk:v2.4.2490
+    volumes:
+      - {container: /home/suwayomi/.local/share/Tachidesk, appdata: data}
+    environment:
+      TZ: "{TZ}"

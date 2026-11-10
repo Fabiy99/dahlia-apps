@@ -1,0 +1,39 @@
+schema: 2
+id: planka
+name: Planka
+category: productivity
+description:
+  de: "Kanban-Boards für Projekte und Teams, ähnlich Trello."
+  en: "Kanban boards for projects and teams, similar to Trello."
+website: https://planka.app/
+notes:
+  de: "Über https://planka.<Domain> aufrufen, damit Links und Anmeldung stimmen."
+  en: "Open it at https://planka.<domain> so links and login work."
+web: {port: 1337, public_port: 8315}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: ghcr.io/plankanban/planka:2.3.1
+    depends_on: [db]
+    volumes:
+      - {container: /app/public/favicons, appdata: favicons}
+      - {container: /app/public/user-avatars, appdata: avatars}
+      - {container: /app/public/background-images, appdata: backgrounds}
+      - {container: /app/private/attachments, appdata: attachments}
+    environment:
+      BASE_URL: "https://planka.{DOMAIN}"
+      DATABASE_URL: "postgresql://planka:{SECRET_DB}@db/planka"
+      SECRET_KEY: "{SECRET_KEY}"
+      TRUST_PROXY: "1"
+      DEFAULT_ADMIN_EMAIL: "admin@example.com"
+      DEFAULT_ADMIN_USERNAME: "admin"
+      DEFAULT_ADMIN_NAME: "Admin"
+      DEFAULT_ADMIN_PASSWORD: "{SECRET_ADMIN}"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "planka"
+      POSTGRES_USER: "planka"
+      POSTGRES_PASSWORD: "{SECRET_DB}"

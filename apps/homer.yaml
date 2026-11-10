@@ -1,0 +1,19 @@
+schema: 2
+id: homer
+name: Homer
+category: home
+description:
+  de: "Statische Startseite mit Links zu deinen Diensten."
+  en: "Static start page with links to your services."
+notes:
+  de: "Links in /mnt/user/appdata/homer/assets/config.yml eintragen."
+  en: "Add links in /mnt/user/appdata/homer/assets/config.yml."
+web: {port: 8080, public_port: 8338}
+services:
+  app:
+    image: b4bz/homer:v26.11.1
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /www/assets, appdata: assets}
+    environment:
+      INIT_ASSETS: "1"

@@ -1,0 +1,19 @@
+schema: 2
+id: shiori
+name: Shiori
+category: productivity
+description:
+  de: "Lesezeichen-Verwaltung mit Offline-Archiv."
+  en: "Bookmark manager with offline archive."
+notes:
+  de: "Standard-Login shiori / gopher, sofort ändern."
+  en: "Default login shiori / gopher, change it right away."
+web: {port: 8080, public_port: 8324}
+services:
+  app:
+    image: ghcr.io/go-shiori/shiori:v1.8.0
+    volumes:
+      - {container: /shiori, appdata: data}
+    environment:
+      SHIORI_DIR: "/shiori"
+      TZ: "{TZ}"

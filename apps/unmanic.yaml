@@ -1,0 +1,20 @@
+schema: 2
+id: unmanic
+name: Unmanic
+category: media
+description:
+  de: "Optimiert Mediendateien im Hintergrund nach eigenen Regeln."
+  en: "Optimises media files in the background by your own rules."
+website: https://docs.unmanic.app/
+web: {port: 8888, public_port: 8306}
+services:
+  app:
+    image: josh5/unmanic:0.4.1
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /tmp/unmanic, appdata: cache}
+      - {container: /library, share: media}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
