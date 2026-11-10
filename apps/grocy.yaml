@@ -1,0 +1,20 @@
+schema: 2
+id: grocy
+name: grocy
+category: productivity
+description:
+  de: "Vorräte, Einkauf und Haushalt verwalten."
+  en: "Manage groceries, shopping and household."
+notes:
+  de: "Standard-Login admin / admin, sofort ändern."
+  en: "Default login admin / admin, change it right away."
+web: {port: 80, public_port: 9283}
+services:
+  app:
+    image: ghcr.io/linuxserver/grocy:version-v4.7.1
+    volumes:
+      - {container: /config, appdata: config}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

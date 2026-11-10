@@ -1,0 +1,11 @@
+schema: 2
+id: languagetool
+name: LanguageTool
+category: tools
+description:
+  de: "Rechtschreib- und Grammatikprüfung für Browser und Office."
+  en: "Spelling and grammar checker for browsers and office apps."
+web: {port: 8010, public_port: 8012}
+services:
+  app:
+    image: erikvl87/languagetool:6.8

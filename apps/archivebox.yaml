@@ -1,0 +1,20 @@
+schema: 2
+id: archivebox
+name: ArchiveBox
+category: tools
+description:
+  de: "Archiviert Webseiten dauerhaft."
+  en: "Archives web pages permanently."
+web: {port: 8000, public_port: 8013}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: archivebox/archivebox:0.9.77
+    volumes:
+      - {container: /data, appdata: data}
+    environment:
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD: "{SECRET_ADMIN}"
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      ALLOWED_HOSTS: "*"

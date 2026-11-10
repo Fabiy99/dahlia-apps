@@ -1,0 +1,16 @@
+schema: 2
+id: beszel
+name: Beszel
+category: monitoring
+description:
+  de: "Leichtes Server-Monitoring mit Verlauf und Warnungen."
+  en: "Lightweight server monitoring with history and alerts."
+notes:
+  de: "Der Agent auf den überwachten Rechnern wird dort separat installiert."
+  en: "The agent on the monitored machines is installed there separately."
+web: {port: 8090, public_port: 8287}
+services:
+  app:
+    image: henrygd/beszel:0.21.1
+    volumes:
+      - {container: /beszel_data, appdata: data}

@@ -1,0 +1,16 @@
+schema: 2
+id: searxng
+name: SearXNG
+category: tools
+description:
+  de: "Meta-Suchmaschine ohne Tracking."
+  en: "Metasearch engine without tracking."
+web: {port: 8080, public_port: 8293}
+services:
+  app:
+    image: searxng/searxng:2026.11.9-57ff753ad
+    volumes:
+      - {container: /etc/searxng, appdata: config}
+    environment:
+      SEARXNG_SECRET: "{SECRET_KEY}"
+      SEARXNG_BASE_URL: "https://searxng.{DOMAIN}/"

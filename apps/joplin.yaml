@@ -1,0 +1,32 @@
+schema: 2
+id: joplin
+name: Joplin Server
+category: productivity
+description:
+  de: "Synchronisation für die Notiz-App Joplin."
+  en: "Sync server for the Joplin notes app."
+notes:
+  de: "Standard-Login admin@localhost / admin, sofort ändern."
+  en: "Default login admin@localhost / admin, change it right away."
+web: {port: 22300, public_port: 22300}
+services:
+  app:
+    image: joplin/server:3.7.4
+    depends_on: [db]
+    environment:
+      APP_PORT: "22300"
+      APP_BASE_URL: "https://joplin.{DOMAIN}"
+      DB_CLIENT: "pg"
+      POSTGRES_HOST: "db"
+      POSTGRES_PORT: "5432"
+      POSTGRES_DATABASE: "joplin"
+      POSTGRES_USER: "joplin"
+      POSTGRES_PASSWORD: "{SECRET_DB}"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "joplin"
+      POSTGRES_USER: "joplin"
+      POSTGRES_PASSWORD: "{SECRET_DB}"

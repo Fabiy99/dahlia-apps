@@ -1,0 +1,12 @@
+{
+  "policy": {
+    "mariadb": "patch",
+    "ghcr.io/immich-app/postgres": "hold",
+    "gitea/gitea": "major",
+    "neosmemo/memos": "major",
+    "actualbudget/actual-server": "major",
+    "ghcr.io/linuxserver/bookstack": "major",
+    "jlesage/handbrake": "major",
+    "jlesage/jdownloader-2": "major"
+  }
+}

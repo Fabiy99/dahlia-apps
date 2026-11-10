@@ -1,0 +1,24 @@
+schema: 2
+id: transmission
+name: Transmission
+category: downloads
+description:
+  de: "Schlanker BitTorrent-Client."
+  en: "Lightweight BitTorrent client."
+web: {port: 9091, public_port: 9091}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: ghcr.io/linuxserver/transmission:version-4.1.4-r0
+    lan_ports:
+      - {container: 51413, host: 51413, protocol: tcp}
+      - {container: 51413, host: 51413, protocol: udp}
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /downloads, share: downloads}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      USER: "admin"
+      PASS: "{SECRET_ADMIN}"

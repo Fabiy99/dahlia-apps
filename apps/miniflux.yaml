@@ -1,0 +1,27 @@
+schema: 2
+id: miniflux
+name: Miniflux
+category: productivity
+description:
+  de: "Minimalistischer RSS-Reader."
+  en: "Minimalist RSS reader."
+web: {port: 8080, public_port: 8282}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: miniflux/miniflux:2.3.5
+    depends_on: [db]
+    environment:
+      DATABASE_URL: "postgres://miniflux:{SECRET_DB}@db/miniflux?sslmode=disable"
+      RUN_MIGRATIONS: "1"
+      CREATE_ADMIN: "1"
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD: "{SECRET_ADMIN}"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "miniflux"
+      POSTGRES_USER: "miniflux"
+      POSTGRES_PASSWORD: "{SECRET_DB}"

@@ -1,19 +1,23 @@
-schema: 1
+schema: 2
 id: syncthing
 name: Syncthing
+category: cloud
 description:
-  de: Synchronisiert Ordner zwischen Geräten. Die Daten liegen in der Freigabe sync.
-  en: Syncs folders between devices. Data lives in the sync share.
-image: syncthing/syncthing:1.30.0
+  de: "Synchronisiert Ordner zwischen Geräten. Die Daten liegen in der Freigabe sync."
+  en: "Syncs folders between devices. Data lives in the sync share."
+website: https://syncthing.net/
 web: {port: 8384, public_port: 8384}
-lan_ports:
-  - {container: 22000, host: 22000, protocol: tcp}
-  - {container: 22000, host: 22000, protocol: udp}
-  - {container: 21027, host: 21027, protocol: udp}
-volumes:
-  - {container: /var/syncthing, appdata: data}
-  - {container: /var/syncthing/sync, share: sync}
-environment:
-  TZ: "{TZ}"
-  PUID: "{PUID}"
-  PGID: "{PGID}"
+services:
+  app:
+    image: syncthing/syncthing:2.1.7
+    lan_ports:
+      - {container: 22000, host: 22000, protocol: tcp}
+      - {container: 22000, host: 22000, protocol: udp}
+      - {container: 21027, host: 21027, protocol: udp}
+    volumes:
+      - {container: /var/syncthing, appdata: data}
+      - {container: /var/syncthing/sync, share: sync}
+    environment:
+      TZ: "{TZ}"
+      PUID: "{PUID}"
+      PGID: "{PGID}"

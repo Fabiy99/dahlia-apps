@@ -1,0 +1,18 @@
+schema: 2
+id: gotify
+name: Gotify
+category: communication
+description:
+  de: "Server für Push-Nachrichten mit Android-App."
+  en: "Push message server with Android app."
+web: {port: 80, public_port: 8297}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: gotify/server:3.1.1
+    volumes:
+      - {container: /app/data, appdata: data}
+    environment:
+      GOTIFY_DEFAULTUSER_NAME: "admin"
+      GOTIFY_DEFAULTUSER_PASS: "{SECRET_ADMIN}"
+      TZ: "{TZ}"

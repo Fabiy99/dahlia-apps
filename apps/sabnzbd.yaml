@@ -1,0 +1,18 @@
+schema: 2
+id: sabnzbd
+name: SABnzbd
+category: downloads
+description:
+  de: "Usenet-Downloader."
+  en: "Usenet downloader."
+web: {port: 8080, public_port: 8088}
+services:
+  app:
+    image: ghcr.io/linuxserver/sabnzbd:version-5.1.3
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /downloads, share: downloads}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

@@ -1,0 +1,22 @@
+schema: 2
+id: navidrome
+name: Navidrome
+category: media
+description:
+  de: "Musikserver mit Web-Player und Subsonic-API für die Freigabe music."
+  en: "Music server with web player and Subsonic API for the music share."
+website: https://www.navidrome.org/
+notes:
+  de: "Der erste Login legt das Admin-Konto an."
+  en: "The first login creates the admin account."
+web: {port: 4533, public_port: 4533}
+services:
+  app:
+    image: deluan/navidrome:0.64.2
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /data, appdata: data}
+      - {container: /music, share: music, readonly: true}
+    environment:
+      ND_SCANSCHEDULE: "1h"
+      TZ: "{TZ}"

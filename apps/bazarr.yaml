@@ -1,0 +1,18 @@
+schema: 2
+id: bazarr
+name: Bazarr
+category: downloads
+description:
+  de: "Lädt Untertitel für Sonarr und Radarr."
+  en: "Fetches subtitles for Sonarr and Radarr."
+web: {port: 6767, public_port: 6767}
+services:
+  app:
+    image: ghcr.io/linuxserver/bazarr:version-v1.6.2
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /media, share: media}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

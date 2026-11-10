@@ -1,0 +1,21 @@
+schema: 2
+id: teamspeak
+name: TeamSpeak 3
+category: communication
+description:
+  de: "Sprachserver für TeamSpeak-Clients."
+  en: "Voice server for TeamSpeak clients."
+notes:
+  de: "Der Admin-Token steht im Log: sudo docker logs dahlia-teamspeak"
+  en: "The admin token is in the log: sudo docker logs dahlia-teamspeak"
+services:
+  app:
+    image: teamspeak:3.13.9
+    lan_ports:
+      - {container: 9987, host: 9987, protocol: udp}
+      - {container: 10011, host: 10011, protocol: tcp}
+      - {container: 30033, host: 30033, protocol: tcp}
+    volumes:
+      - {container: /var/ts3server, appdata: data}
+    environment:
+      TS3SERVER_LICENSE: "accept"

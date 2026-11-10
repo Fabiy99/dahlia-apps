@@ -1,0 +1,15 @@
+schema: 2
+id: esphome
+name: ESPHome
+category: home
+description:
+  de: "Firmware für ESP32- und ESP8266-Sensoren bauen und verwalten."
+  en: "Build and manage firmware for ESP32 and ESP8266 sensors."
+web: {port: 6052, public_port: 6052}
+services:
+  app:
+    image: ghcr.io/esphome/esphome:2026.10.2
+    volumes:
+      - {container: /config, appdata: config}
+    environment:
+      TZ: "{TZ}"

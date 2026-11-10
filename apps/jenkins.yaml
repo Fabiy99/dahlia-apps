@@ -1,0 +1,17 @@
+schema: 2
+id: jenkins
+name: Jenkins
+category: development
+description:
+  de: "Automatisierungs- und CI-Server."
+  en: "Automation and CI server."
+notes:
+  de: "Das erste Admin-Passwort: sudo docker logs dahlia-jenkins"
+  en: "The initial admin password: sudo docker logs dahlia-jenkins"
+web: {port: 8080, public_port: 8294}
+services:
+  app:
+    image: jenkins/jenkins:2.580.2-lts-jdk21
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /var/jenkins_home, appdata: home}

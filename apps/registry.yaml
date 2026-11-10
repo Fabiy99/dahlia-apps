@@ -1,0 +1,13 @@
+schema: 2
+id: registry
+name: Docker Registry
+category: development
+description:
+  de: "Eigene Registry für Container-Images."
+  en: "Your own registry for container images."
+web: {port: 5000, public_port: 5002}
+services:
+  app:
+    image: registry:3.1.2
+    volumes:
+      - {container: /var/lib/registry, appdata: data}

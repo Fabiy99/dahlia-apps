@@ -1,0 +1,24 @@
+schema: 2
+id: open-webui
+name: Open WebUI
+category: tools
+description:
+  de: "Chat mit lokalen KI-Modellen über Ollama (CPU)."
+  en: "Chat with local AI models through Ollama (CPU)."
+notes:
+  de: "Der erste Login legt das Admin-Konto an. Modelle unter Einstellungen > Modelle laden."
+  en: "The first login creates the admin account. Load models under Settings > Models."
+web: {port: 8080, public_port: 3017}
+services:
+  app:
+    image: ghcr.io/open-webui/open-webui:v0.13.3
+    depends_on: [ollama]
+    volumes:
+      - {container: /app/backend/data, appdata: data}
+    environment:
+      OLLAMA_BASE_URL: "http://ollama:11434"
+      WEBUI_SECRET_KEY: "{SECRET_KEY}"
+  ollama:
+    image: ollama/ollama:0.40.16
+    volumes:
+      - {container: /root/.ollama, appdata: ollama}

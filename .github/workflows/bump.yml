@@ -1,0 +1,67 @@
+name: bump
+
+# Daily: look for newer image versions and propose them as a pull request
+# on the branch bump/images. Needs "Allow GitHub Actions to create and
+# approve pull requests" in Settings > Actions > General. Pull requests made
+# with GITHUB_TOKEN do not start other workflows, so this job runs the
+# catalog check itself before opening the PR.
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: bump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Fabiy99/dahlia-linux
+          ref: main
+          path: dahlia-linux
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install tools
+        run: pip install pyyaml
+
+      - name: Look for new versions
+        run: python3 tools/bump.py --report "$RUNNER_TEMP/report.md"
+
+      - name: Check the catalog
+        run: python3 tools/check.py --linux dahlia-linux --images
+
+      - name: Open or update the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf dahlia-linux
+          if git diff --quiet; then
+            echo "No new versions."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B bump/images
+          git commit -qam "Neue Image-Versionen / New image versions"
+          git push -f origin bump/images
+          if gh pr view bump/images --json state -q .state 2>/dev/null | grep -qx OPEN; then
+            gh pr edit bump/images --body-file "$RUNNER_TEMP/report.md"
+          else
+            gh pr create --base main --head bump/images \
+              --title "Neue Image-Versionen / New image versions" \
+              --body-file "$RUNNER_TEMP/report.md"
+          fi

@@ -1,0 +1,13 @@
+schema: 2
+id: flaresolverr
+name: FlareSolverr
+category: downloads
+description:
+  de: "Hilft Prowlarr und Jackett bei Seiten mit Cloudflare-Schutz."
+  en: "Helps Prowlarr and Jackett with sites behind Cloudflare protection."
+web: {port: 8191, public_port: 8191}
+services:
+  app:
+    image: ghcr.io/flaresolverr/flaresolverr:v3.5.2
+    environment:
+      TZ: "{TZ}"

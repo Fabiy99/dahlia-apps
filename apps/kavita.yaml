@@ -1,0 +1,19 @@
+schema: 2
+id: kavita
+name: Kavita
+category: books
+description:
+  de: "Leser für Comics, Mangas und E-Books aus der Freigabe books."
+  en: "Reader for comics, manga and e-books from the books share."
+website: https://www.kavitareader.com/
+web: {port: 5000, public_port: 5000}
+services:
+  app:
+    image: ghcr.io/linuxserver/kavita:version-v0.9.1.4
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /data, share: books}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

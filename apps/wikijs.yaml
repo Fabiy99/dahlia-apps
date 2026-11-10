@@ -1,0 +1,28 @@
+schema: 2
+id: wikijs
+name: Wiki.js
+category: productivity
+description:
+  de: "Modernes Wiki mit Markdown-Editor."
+  en: "Modern wiki with Markdown editor."
+website: https://js.wiki/
+web: {port: 3000, public_port: 3012}
+services:
+  app:
+    image: ghcr.io/requarks/wiki:2.5.317
+    depends_on: [db]
+    environment:
+      DB_TYPE: "postgres"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_USER: "wikijs"
+      DB_PASS: "{SECRET_DB}"
+      DB_NAME: "wiki"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "wiki"
+      POSTGRES_USER: "wikijs"
+      POSTGRES_PASSWORD: "{SECRET_DB}"

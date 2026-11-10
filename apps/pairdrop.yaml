@@ -1,0 +1,17 @@
+schema: 2
+id: pairdrop
+name: PairDrop
+category: tools
+description:
+  de: "Dateien im lokalen Netz zwischen Geräten senden, wie AirDrop."
+  en: "Send files between devices on the local network, like AirDrop."
+web: {port: 3000, public_port: 3019}
+services:
+  app:
+    image: ghcr.io/linuxserver/pairdrop:version-v1.11.2
+    volumes:
+      - {container: /config, appdata: config}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

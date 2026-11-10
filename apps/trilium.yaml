@@ -1,0 +1,15 @@
+schema: 2
+id: trilium
+name: Trilium Notes
+category: productivity
+description:
+  de: "Hierarchische Notizen mit Verknüpfungen."
+  en: "Hierarchical notes with links."
+web: {port: 8080, public_port: 8095}
+services:
+  app:
+    image: triliumnext/trilium:v0.107.0
+    volumes:
+      - {container: /home/node/trilium-data, appdata: data}
+    environment:
+      TZ: "{TZ}"

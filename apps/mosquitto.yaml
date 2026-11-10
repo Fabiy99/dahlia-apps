@@ -1,0 +1,18 @@
+schema: 2
+id: mosquitto
+name: Mosquitto
+category: home
+description:
+  de: "MQTT-Broker für Sensoren und Hausautomation."
+  en: "MQTT broker for sensors and home automation."
+notes:
+  de: "Läuft ohne Anmeldung auf Port 1883, nur im eigenen Netz nutzen."
+  en: "Runs without authentication on port 1883, use it only on your own network."
+services:
+  app:
+    image: eclipse-mosquitto:2.0.22
+    lan_ports:
+      - {container: 1883, host: 1883, protocol: tcp}
+    volumes:
+      - {container: /mosquitto/data, appdata: data}
+    command: ["mosquitto", "-c", "/mosquitto-no-auth.conf"]

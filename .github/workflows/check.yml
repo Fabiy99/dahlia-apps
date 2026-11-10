@@ -34,3 +34,6 @@ jobs:
 
       - name: Check templates and images
         run: python3 tools/check.py --linux dahlia-linux --images
+
+      - name: Version logic
+        run: python3 -m unittest discover -s tools -p 'test_*.py'

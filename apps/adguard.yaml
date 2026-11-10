@@ -1,0 +1,21 @@
+schema: 2
+id: adguard
+name: AdGuard Home
+category: network
+description:
+  de: "DNS-Server mit Werbe- und Tracking-Filter für das ganze Netz."
+  en: "DNS server with ad and tracker blocking for the whole network."
+website: https://adguard.com/adguard-home/overview.html
+notes:
+  de: "Im Einrichtungsassistenten den Web-Port 3000 lassen. Danach den Router auf diesen Server als DNS zeigen lassen."
+  en: "Keep web port 3000 in the setup wizard. Then point your router's DNS at this server."
+web: {port: 3000, public_port: 3003}
+services:
+  app:
+    image: adguard/adguardhome:v0.107.80
+    lan_ports:
+      - {container: 53, host: 53, protocol: tcp}
+      - {container: 53, host: 53, protocol: udp}
+    volumes:
+      - {container: /opt/adguardhome/work, appdata: work}
+      - {container: /opt/adguardhome/conf, appdata: conf}

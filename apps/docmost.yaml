@@ -1,0 +1,31 @@
+schema: 2
+id: docmost
+name: Docmost
+category: productivity
+description:
+  de: "Wiki und Dokumentation für Teams, ähnlich Notion."
+  en: "Wiki and documentation for teams, similar to Notion."
+web: {port: 3000, public_port: 3018}
+services:
+  app:
+    image: docmost/docmost:0.97.0
+    depends_on: [db, redis]
+    volumes:
+      - {container: /app/data/storage, appdata: storage}
+    environment:
+      APP_URL: "https://docmost.{DOMAIN}"
+      APP_SECRET: "{SECRET_APP}{SECRET_APP2}"
+      DATABASE_URL: "postgresql://docmost:{SECRET_DB}@db:5432/docmost?schema=public"
+      REDIS_URL: "redis://redis:6379"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "docmost"
+      POSTGRES_USER: "docmost"
+      POSTGRES_PASSWORD: "{SECRET_DB}"
+  redis:
+    image: redis:8.10.3-alpine
+    volumes:
+      - {container: /data, appdata: redis}

@@ -1,0 +1,16 @@
+schema: 2
+id: wallos
+name: Wallos
+category: productivity
+description:
+  de: "Abos und wiederkehrende Ausgaben verwalten."
+  en: "Track subscriptions and recurring expenses."
+web: {port: 80, public_port: 8302}
+services:
+  app:
+    image: bellamy/wallos:5.11.1
+    volumes:
+      - {container: /var/www/html/db, appdata: db}
+      - {container: /var/www/html/images/uploads/logos, appdata: logos}
+    environment:
+      TZ: "{TZ}"

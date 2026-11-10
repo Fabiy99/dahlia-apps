@@ -1,0 +1,21 @@
+schema: 2
+id: influxdb
+name: InfluxDB
+category: monitoring
+description:
+  de: "Zeitreihen-Datenbank für Sensoren und Metriken."
+  en: "Time series database for sensors and metrics."
+web: {port: 8086, public_port: 8086}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: influxdb:2.9.1
+    volumes:
+      - {container: /var/lib/influxdb2, appdata: data}
+      - {container: /etc/influxdb2, appdata: config}
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: "setup"
+      DOCKER_INFLUXDB_INIT_USERNAME: "admin"
+      DOCKER_INFLUXDB_INIT_PASSWORD: "{SECRET_ADMIN}"
+      DOCKER_INFLUXDB_INIT_ORG: "dahlia"
+      DOCKER_INFLUXDB_INIT_BUCKET: "default"

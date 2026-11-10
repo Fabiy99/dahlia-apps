@@ -1,0 +1,22 @@
+schema: 2
+id: mealie
+name: Mealie
+category: productivity
+description:
+  de: "Rezepte sammeln, Wochenpläne und Einkaufslisten."
+  en: "Collect recipes, meal plans and shopping lists."
+notes:
+  de: "Standard-Login changeme@example.com / MyPassword, sofort ändern."
+  en: "Default login changeme@example.com / MyPassword, change it right away."
+web: {port: 9000, public_port: 9925}
+services:
+  app:
+    image: ghcr.io/mealie-recipes/mealie:v3.30.0
+    volumes:
+      - {container: /app/data, appdata: data}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      BASE_URL: "https://mealie.{DOMAIN}"
+      ALLOW_SIGNUP: "false"

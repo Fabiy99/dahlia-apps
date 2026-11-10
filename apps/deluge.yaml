@@ -1,0 +1,21 @@
+schema: 2
+id: deluge
+name: Deluge
+category: downloads
+description:
+  de: "BitTorrent-Client mit Plugins."
+  en: "BitTorrent client with plugins."
+notes:
+  de: "Standard-Passwort deluge, sofort ändern."
+  en: "Default password deluge, change it right away."
+web: {port: 8112, public_port: 8112}
+services:
+  app:
+    image: ghcr.io/linuxserver/deluge:version-2.2.0-r2
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /downloads, share: downloads}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

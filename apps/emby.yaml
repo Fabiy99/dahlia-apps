@@ -1,0 +1,19 @@
+schema: 2
+id: emby
+name: Emby
+category: media
+description:
+  de: "Medienserver für Filme, Serien und Musik."
+  en: "Media server for movies, shows and music."
+website: https://emby.media/
+web: {port: 8096, public_port: 8097}
+services:
+  app:
+    image: ghcr.io/linuxserver/emby:version-4.10.2.0
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /data, share: media, readonly: true}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

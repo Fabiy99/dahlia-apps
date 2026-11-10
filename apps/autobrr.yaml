@@ -1,0 +1,16 @@
+schema: 2
+id: autobrr
+name: autobrr
+category: downloads
+description:
+  de: "Überwacht IRC-Ankündigungen und startet Downloads."
+  en: "Watches IRC announce channels and starts downloads."
+web: {port: 7474, public_port: 7474}
+services:
+  app:
+    image: ghcr.io/autobrr/autobrr:v1.90.0
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /config, appdata: config}
+    environment:
+      TZ: "{TZ}"

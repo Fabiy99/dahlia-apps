@@ -1,0 +1,11 @@
+schema: 2
+id: adminer
+name: Adminer
+category: development
+description:
+  de: "Datenbanken im Browser verwalten."
+  en: "Manage databases in the browser."
+web: {port: 8080, public_port: 8295}
+services:
+  app:
+    image: adminer:6.3.0

@@ -1,0 +1,23 @@
+schema: 2
+id: minecraft
+name: Minecraft Server
+category: other
+description:
+  de: "Minecraft Java Edition Server."
+  en: "Minecraft Java Edition server."
+notes:
+  de: "Mit der Installation wird die Minecraft-EULA akzeptiert."
+  en: "Installing it accepts the Minecraft EULA."
+services:
+  app:
+    image: itzg/minecraft-server:2026.11.0-java21
+    lan_ports:
+      - {container: 25565, host: 25565, protocol: tcp}
+    volumes:
+      - {container: /data, appdata: data}
+    environment:
+      EULA: "TRUE"
+      MEMORY: "2G"
+      TZ: "{TZ}"
+      UID: "{PUID}"
+      GID: "{PGID}"

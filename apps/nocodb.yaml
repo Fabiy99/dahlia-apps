@@ -1,0 +1,13 @@
+schema: 2
+id: nocodb
+name: NocoDB
+category: productivity
+description:
+  de: "Tabellen und Datenbanken wie Airtable."
+  en: "Spreadsheets and databases like Airtable."
+web: {port: 8080, public_port: 8299}
+services:
+  app:
+    image: nocodb/nocodb:2026.10.1
+    volumes:
+      - {container: /usr/app/data, appdata: data}

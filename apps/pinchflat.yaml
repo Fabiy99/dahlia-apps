@@ -1,0 +1,17 @@
+schema: 2
+id: pinchflat
+name: Pinchflat
+category: media
+description:
+  de: "Lädt YouTube-Kanäle automatisch herunter."
+  en: "Downloads YouTube channels automatically."
+web: {port: 8945, public_port: 8945}
+services:
+  app:
+    image: ghcr.io/kieraneglin/pinchflat:v2025.6.6
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /downloads, share: media}
+    environment:
+      TZ: "{TZ}"

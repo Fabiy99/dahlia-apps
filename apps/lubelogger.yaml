@@ -1,0 +1,16 @@
+schema: 2
+id: lubelogger
+name: LubeLogger
+category: productivity
+description:
+  de: "Wartung und Kosten von Fahrzeugen erfassen."
+  en: "Track vehicle maintenance and costs."
+web: {port: 8080, public_port: 8303}
+services:
+  app:
+    image: ghcr.io/hargata/lubelogger:v1.7.4
+    volumes:
+      - {container: /App/data, appdata: data}
+      - {container: /root/.aspnet/DataProtection-Keys, appdata: keys}
+    environment:
+      TZ: "{TZ}"

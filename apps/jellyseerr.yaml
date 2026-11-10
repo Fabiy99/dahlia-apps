@@ -1,0 +1,15 @@
+schema: 2
+id: jellyseerr
+name: Jellyseerr
+category: media
+description:
+  de: "Wunschliste für Filme und Serien für Jellyfin, Emby und Plex."
+  en: "Request manager for movies and shows for Jellyfin, Emby and Plex."
+web: {port: 5055, public_port: 5055}
+services:
+  app:
+    image: fallenbagel/jellyseerr:2.7.3
+    volumes:
+      - {container: /app/config, appdata: config}
+    environment:
+      TZ: "{TZ}"

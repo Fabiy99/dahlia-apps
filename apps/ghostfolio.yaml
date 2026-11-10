@@ -1,0 +1,31 @@
+schema: 2
+id: ghostfolio
+name: Ghostfolio
+category: productivity
+description:
+  de: "Vermögen, Aktien und ETFs im Blick."
+  en: "Track wealth, stocks and ETFs."
+web: {port: 3333, public_port: 3333}
+services:
+  app:
+    image: ghostfolio/ghostfolio:3.99.0
+    depends_on: [db, redis]
+    environment:
+      DATABASE_URL: "postgresql://ghostfolio:{SECRET_DB}@db:5432/ghostfolio?connect_timeout=300&sslmode=prefer"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ""
+      ACCESS_TOKEN_SALT: "{SECRET_SALT}"
+      JWT_SECRET_KEY: "{SECRET_JWT}"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "ghostfolio"
+      POSTGRES_USER: "ghostfolio"
+      POSTGRES_PASSWORD: "{SECRET_DB}"
+  redis:
+    image: redis:8.10.3-alpine
+    volumes:
+      - {container: /data, appdata: redis}

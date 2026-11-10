@@ -1,0 +1,13 @@
+schema: 2
+id: myspeed
+name: MySpeed
+category: network
+description:
+  de: "Speedtests mit Verlauf und Statistiken."
+  en: "Speed tests with history and statistics."
+web: {port: 5216, public_port: 5216}
+services:
+  app:
+    image: germannewsmaker/myspeed:1.0.9
+    volumes:
+      - {container: /myspeed/data, appdata: data}
