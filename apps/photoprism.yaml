@@ -36,3 +36,4 @@ services:
       MARIADB_PASSWORD: "{SECRET_DB}"
       MARIADB_ROOT_PASSWORD: "{SECRET_DBROOT}"
       MARIADB_AUTO_UPGRADE: "1"
+    command: ["--innodb-use-native-aio=0", "--innodb-flush-method=fsync"]
