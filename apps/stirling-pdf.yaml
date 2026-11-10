@@ -1,0 +1,16 @@
+schema: 2
+id: stirling-pdf
+name: Stirling-PDF
+category: tools
+description:
+  de: "PDFs zusammenfügen, teilen, umwandeln und bearbeiten."
+  en: "Merge, split, convert and edit PDFs."
+web: {port: 8080, public_port: 8093}
+services:
+  app:
+    image: stirlingtools/stirling-pdf:3.3.0
+    volumes:
+      - {container: /configs, appdata: configs}
+      - {container: /customFiles, appdata: custom}
+    environment:
+      DOCKER_ENABLE_SECURITY: "false"

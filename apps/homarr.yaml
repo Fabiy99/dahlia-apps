@@ -1,0 +1,15 @@
+schema: 2
+id: homarr
+name: Homarr
+category: tools
+description:
+  de: "Startseite mit Kacheln und Integrationen."
+  en: "Start page with tiles and integrations."
+web: {port: 7575, public_port: 7575}
+services:
+  app:
+    image: ghcr.io/homarr-labs/homarr:v2.12.0
+    volumes:
+      - {container: /appdata, appdata: data}
+    environment:
+      SECRET_ENCRYPTION_KEY: "{SECRET_ENC1}{SECRET_ENC2}"

@@ -1,0 +1,20 @@
+schema: 2
+id: ntfy
+name: ntfy
+category: communication
+description:
+  de: "Push-Benachrichtigungen an Handy und Desktop per HTTP."
+  en: "Push notifications to phone and desktop over HTTP."
+website: https://ntfy.sh/
+web: {port: 80, public_port: 8296}
+services:
+  app:
+    image: binwiederhier/ntfy:v2.37.2
+    volumes:
+      - {container: /var/cache/ntfy, appdata: cache}
+      - {container: /etc/ntfy, appdata: config}
+    environment:
+      NTFY_BASE_URL: "https://ntfy.{DOMAIN}"
+      TZ: "{TZ}"
+      NTFY_CACHE_FILE: "/var/cache/ntfy/cache.db"
+    command: ["serve"]

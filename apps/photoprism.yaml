@@ -1,0 +1,39 @@
+schema: 2
+id: photoprism
+name: PhotoPrism
+category: photos
+description:
+  de: "Fotoverwaltung mit KI-Suche und Karten."
+  en: "Photo management with AI search and maps."
+website: https://www.photoprism.app/
+web: {port: 2342, public_port: 2342}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: photoprism/photoprism:261029
+    depends_on: [db]
+    volumes:
+      - {container: /photoprism/originals, share: photos}
+      - {container: /photoprism/storage, appdata: storage}
+    environment:
+      PHOTOPRISM_ADMIN_USER: "admin"
+      PHOTOPRISM_ADMIN_PASSWORD: "{SECRET_ADMIN}"
+      PHOTOPRISM_DATABASE_DRIVER: "mysql"
+      PHOTOPRISM_DATABASE_SERVER: "db:3306"
+      PHOTOPRISM_DATABASE_NAME: "photoprism"
+      PHOTOPRISM_DATABASE_USER: "photoprism"
+      PHOTOPRISM_DATABASE_PASSWORD: "{SECRET_DB}"
+      PHOTOPRISM_UID: "{PUID}"
+      PHOTOPRISM_GID: "{PGID}"
+      TZ: "{TZ}"
+  db:
+    image: mariadb:11.8.9
+    volumes:
+      - {container: /var/lib/mysql, appdata: db}
+    environment:
+      MARIADB_DATABASE: "photoprism"
+      MARIADB_USER: "photoprism"
+      MARIADB_PASSWORD: "{SECRET_DB}"
+      MARIADB_ROOT_PASSWORD: "{SECRET_DBROOT}"
+      MARIADB_AUTO_UPGRADE: "1"
+    command: ["--innodb-use-native-aio=0", "--innodb-flush-method=fsync"]

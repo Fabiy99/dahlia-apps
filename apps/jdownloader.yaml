@@ -1,0 +1,18 @@
+schema: 2
+id: jdownloader
+name: JDownloader 2
+category: downloads
+description:
+  de: "Download-Manager im Browser."
+  en: "Download manager in the browser."
+web: {port: 5800, public_port: 5801}
+services:
+  app:
+    image: jlesage/jdownloader-2:v26.09.1
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /output, share: downloads}
+    environment:
+      USER_ID: "{PUID}"
+      GROUP_ID: "{PGID}"
+      TZ: "{TZ}"

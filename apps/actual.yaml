@@ -1,0 +1,13 @@
+schema: 2
+id: actual
+name: Actual Budget
+category: productivity
+description:
+  de: "Haushaltsbuch nach dem Umschlag-Prinzip."
+  en: "Envelope budgeting app."
+web: {port: 5006, public_port: 5006}
+services:
+  app:
+    image: actualbudget/actual-server:26.11.0
+    volumes:
+      - {container: /data, appdata: data}

@@ -1,0 +1,26 @@
+schema: 2
+id: qbittorrent
+name: qBittorrent
+category: downloads
+description:
+  de: "BitTorrent-Client mit Web-Oberfläche."
+  en: "BitTorrent client with web interface."
+notes:
+  de: "Das erste Passwort für admin steht im Log: sudo docker logs dahlia-qbittorrent"
+  en: "The first password for admin is in the log: sudo docker logs dahlia-qbittorrent"
+web: {port: 8080, public_port: 8090}
+services:
+  app:
+    image: ghcr.io/linuxserver/qbittorrent:version-5.3.0_v2.1.2
+    lan_ports:
+      - {container: 6881, host: 6881, protocol: tcp}
+      - {container: 6881, host: 6881, protocol: udp}
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /downloads, share: downloads}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      WEBUI_PORT: "8080"
+      TORRENTING_PORT: "6881"

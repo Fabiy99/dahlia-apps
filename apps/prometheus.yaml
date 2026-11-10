@@ -1,0 +1,14 @@
+schema: 2
+id: prometheus
+name: Prometheus
+category: monitoring
+description:
+  de: "Sammelt und speichert Metriken."
+  en: "Collects and stores metrics."
+web: {port: 9090, public_port: 9092}
+services:
+  app:
+    image: prom/prometheus:v3.16.0
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /prometheus, appdata: data}

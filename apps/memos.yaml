@@ -1,0 +1,13 @@
+schema: 2
+id: memos
+name: Memos
+category: productivity
+description:
+  de: "Schnelle Notizen und Gedanken wie ein privates Microblog."
+  en: "Quick notes like a private microblog."
+web: {port: 5230, public_port: 5230}
+services:
+  app:
+    image: neosmemo/memos:26.11.0
+    volumes:
+      - {container: /var/opt/memos, appdata: data}

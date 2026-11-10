@@ -1,0 +1,29 @@
+schema: 2
+id: jellystat
+name: Jellystat
+category: media
+description:
+  de: "Statistiken für Jellyfin."
+  en: "Statistics for Jellyfin."
+web: {port: 3000, public_port: 3011}
+services:
+  app:
+    image: cyfershepard/jellystat:1.1.12
+    depends_on: [db]
+    volumes:
+      - {container: /app/backend/backup-data, appdata: backup}
+    environment:
+      POSTGRES_USER: "jellystat"
+      POSTGRES_PASSWORD: "{SECRET_DB}"
+      POSTGRES_IP: "db"
+      POSTGRES_PORT: "5432"
+      JWT_SECRET: "{SECRET_JWT}"
+      TZ: "{TZ}"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "jfstat"
+      POSTGRES_USER: "jellystat"
+      POSTGRES_PASSWORD: "{SECRET_DB}"

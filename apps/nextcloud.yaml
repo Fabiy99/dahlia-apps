@@ -1,0 +1,44 @@
+schema: 2
+id: nextcloud
+name: Nextcloud
+category: cloud
+description:
+  de: "Dateien, Kalender, Kontakte und mehr in der eigenen Cloud."
+  en: "Files, calendar, contacts and more in your own cloud."
+website: https://nextcloud.com/
+notes:
+  de: "Die erste Einrichtung dauert einige Minuten."
+  en: "The first setup takes a few minutes."
+web: {port: 80, public_port: 8380}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: nextcloud:35.0.2-apache
+    depends_on: [db, redis]
+    volumes:
+      - {container: /var/www/html, appdata: html}
+    environment:
+      MYSQL_HOST: "db"
+      MYSQL_DATABASE: "nextcloud"
+      MYSQL_USER: "nextcloud"
+      MYSQL_PASSWORD: "{SECRET_DB}"
+      REDIS_HOST: "redis"
+      NEXTCLOUD_ADMIN_USER: "admin"
+      NEXTCLOUD_ADMIN_PASSWORD: "{SECRET_ADMIN}"
+      NEXTCLOUD_TRUSTED_DOMAINS: "*"
+      TRUSTED_PROXIES: "172.16.0.0/12 192.168.0.0/16 10.0.0.0/8"
+  db:
+    image: mariadb:11.8.9
+    volumes:
+      - {container: /var/lib/mysql, appdata: db}
+    environment:
+      MARIADB_DATABASE: "nextcloud"
+      MARIADB_USER: "nextcloud"
+      MARIADB_PASSWORD: "{SECRET_DB}"
+      MARIADB_ROOT_PASSWORD: "{SECRET_DBROOT}"
+      MARIADB_AUTO_UPGRADE: "1"
+    command: ["--innodb-use-native-aio=0", "--innodb-flush-method=fsync", "--transaction-isolation=READ-COMMITTED", "--log-bin=binlog", "--binlog-format=ROW"]
+  redis:
+    image: redis:8.10.3-alpine
+    volumes:
+      - {container: /data, appdata: redis}

@@ -1,0 +1,43 @@
+schema: 2
+id: paperless
+name: Paperless-ngx
+category: productivity
+description:
+  de: "Dokumentenarchiv mit Texterkennung. Neue Scans in die Freigabe scans legen."
+  en: "Document archive with OCR. Put new scans into the scans share."
+website: https://docs.paperless-ngx.com/
+web: {port: 8000, public_port: 8000}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: ghcr.io/paperless-ngx/paperless-ngx:3.4.2
+    depends_on: [db, redis]
+    volumes:
+      - {container: /usr/src/paperless/data, appdata: data}
+      - {container: /usr/src/paperless/media, share: documents}
+      - {container: /usr/src/paperless/export, appdata: export}
+      - {container: /usr/src/paperless/consume, share: scans}
+    environment:
+      PAPERLESS_REDIS: "redis://redis:6379"
+      PAPERLESS_DBHOST: "db"
+      PAPERLESS_DBUSER: "paperless"
+      PAPERLESS_DBPASS: "{SECRET_DB}"
+      PAPERLESS_SECRET_KEY: "{SECRET_KEY}"
+      PAPERLESS_ADMIN_USER: "admin"
+      PAPERLESS_ADMIN_PASSWORD: "{SECRET_ADMIN}"
+      USERMAP_UID: "{PUID}"
+      USERMAP_GID: "{PGID}"
+      PAPERLESS_TIME_ZONE: "{TZ}"
+      PAPERLESS_OCR_LANGUAGE: "deu+eng"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "paperless"
+      POSTGRES_USER: "paperless"
+      POSTGRES_PASSWORD: "{SECRET_DB}"
+  redis:
+    image: redis:8.10.3-alpine
+    volumes:
+      - {container: /data, appdata: redis}

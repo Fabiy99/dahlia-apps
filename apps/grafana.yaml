@@ -1,0 +1,19 @@
+schema: 2
+id: grafana
+name: Grafana
+category: monitoring
+description:
+  de: "Dashboards für Metriken aus Prometheus, InfluxDB und mehr."
+  en: "Dashboards for metrics from Prometheus, InfluxDB and more."
+website: https://grafana.com/
+web: {port: 3000, public_port: 3014}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: grafana/grafana:13.3.0
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /var/lib/grafana, appdata: data}
+    environment:
+      GF_SECURITY_ADMIN_USER: "admin"
+      GF_SECURITY_ADMIN_PASSWORD: "{SECRET_ADMIN}"

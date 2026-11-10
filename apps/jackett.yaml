@@ -1,0 +1,17 @@
+schema: 2
+id: jackett
+name: Jackett
+category: downloads
+description:
+  de: "Proxy für Torrent-Indexer."
+  en: "Proxy for torrent indexers."
+web: {port: 9117, public_port: 9117}
+services:
+  app:
+    image: ghcr.io/linuxserver/jackett:version-v0.24.3042
+    volumes:
+      - {container: /config, appdata: config}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

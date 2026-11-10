@@ -1,0 +1,11 @@
+schema: 2
+id: drawio
+name: draw.io
+category: tools
+description:
+  de: "Diagramme im Browser zeichnen."
+  en: "Draw diagrams in the browser."
+web: {port: 8080, public_port: 8292}
+services:
+  app:
+    image: jgraph/drawio:32.6.10

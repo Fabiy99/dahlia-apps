@@ -1,0 +1,26 @@
+schema: 2
+id: linkwarden
+name: Linkwarden
+category: productivity
+description:
+  de: "Lesezeichen mit gespeicherten Kopien der Seiten."
+  en: "Bookmarks with archived copies of the pages."
+web: {port: 3000, public_port: 3013}
+services:
+  app:
+    image: ghcr.io/linkwarden/linkwarden:v2.16.3
+    depends_on: [db]
+    volumes:
+      - {container: /data/data, appdata: data}
+    environment:
+      DATABASE_URL: "postgresql://linkwarden:{SECRET_DB}@db:5432/linkwarden"
+      NEXTAUTH_SECRET: "{SECRET_AUTH}"
+      NEXTAUTH_URL: "https://linkwarden.{DOMAIN}/api/v1/auth"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "linkwarden"
+      POSTGRES_USER: "linkwarden"
+      POSTGRES_PASSWORD: "{SECRET_DB}"

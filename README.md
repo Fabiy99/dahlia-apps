@@ -5,77 +5,132 @@ App catalog for Dahlia Linux.
 
 ## Deutsch
 
-Dahlia lädt den Katalog von
+Dahlia (ab 0.4) lädt `catalog.json` von
 `https://raw.githubusercontent.com/Fabiy99/dahlia-apps/main/` (einstellbar in
-`/etc/dahlia/apps.json`). Im Dashboard: Apps, "Katalog aktualisieren".
+`/etc/dahlia/apps.json`), alle 6 Stunden und mit "Katalog aktualisieren" im Dashboard.
+Ist die Vorlage einer installierten App neuer, zeigt das Dashboard "Update auf X".
 
 ### Aufbau
 
 | Datei | Inhalt |
 | --- | --- |
-| `index.json` | `{"apps": [...]}`, alle IDs, sortiert |
-| `apps/<id>.yaml` | eine App-Vorlage |
+| `apps/<id>.yaml` | eine App-Vorlage (Schema 2) |
+| `catalog.json` | alle Vorlagen in einer Datei, erzeugt von `tools/build.py` |
 | `tools/check.py` | Prüfung, läuft in der CI bei jedem PR |
+| `tools/bump.py` | sucht neue Image-Versionen, `tools/bump.json` legt die Regeln fest |
+| `.github/workflows/bump.yml` | täglich: neue Versionen als Pull Request `bump/images` |
 
 ### Vorlage
 
 ```yaml
-schema: 1
-id: uptime-kuma                      # a-z, 0-9, -; gleich dem Dateinamen
-name: Uptime Kuma
-description:                         # beide Sprachen sind Pflicht
-  de: Überwacht Webseiten und Dienste.
-  en: Monitors websites and services.
-image: louislam/uptime-kuma:1.23.16  # feste Version, nie latest
-web: {port: 3001, public_port: 3001} # Port im Container, Port im LAN
-lan_ports:                           # optional, nur wenn nötig
-  - {container: 22000, host: 22000, protocol: tcp}
-volumes:
-  - {container: /app/data, appdata: data}             # /mnt/user/appdata/<id>/data
-  - {container: /media, share: media, readonly: true} # /mnt/user/media
-environment:
-  TZ: "{TZ}"                         # Platzhalter: {TZ}, {PUID}, {PGID}
+schema: 2
+id: paperless                        # a-z, 0-9, -; gleich dem Dateinamen
+name: Paperless-ngx
+category: productivity               # media, downloads, photos, books, cloud, productivity,
+                                     # home, network, security, monitoring, communication,
+                                     # development, tools, other
+description: {de: "...", en: "..."}  # beide Sprachen sind Pflicht
+website: https://docs.paperless-ngx.com/
+notes: {de: "...", en: "..."}       # optional, Hinweise nach der Installation
+web: {port: 8000, public_port: 8000} # Port im Container, Port im LAN
+login: {user: admin, password: "{SECRET_ADMIN}"}   # optional, zeigt das Dashboard an
+services:
+  app:                               # Pflicht, Hauptdienst
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.18.4   # feste Version, nie latest
+    depends_on: [db, redis]
+    lan_ports:                       # optional, nur wenn nötig
+      - {container: 22000, host: 22000, protocol: tcp}
+    volumes:
+      - {container: /usr/src/paperless/data, appdata: data}   # /mnt/user/appdata/<id>/data
+      - {container: /usr/src/paperless/consume, share: scans} # /mnt/user/scans
+    environment:
+      PAPERLESS_DBHOST: db           # Dienste erreichen sich über ihren Namen
+      PAPERLESS_DBPASS: "{SECRET_DB}"
+    user: "{PUID}:{PGID}"            # optional
+    command: [--flag]                # optional
+  db:
+    image: postgres:17.6-alpine
+    environment: {POSTGRES_PASSWORD: "{SECRET_DB}"}
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+  redis:
+    image: redis:8.2.1-alpine
 ```
 
-Andere Felder gibt es nicht. `privileged`, Host-Netzwerk, Geräte, Capabilities und
-beliebige Host-Pfade lehnt Dahlia ab. Der Web-Port läuft nur auf 127.0.0.1, im LAN ist die
-App über nginx unter `http://<server>:<public_port>/` erreichbar. Öffentliche Ports
-dürfen sich zwischen Apps nicht überschneiden; reserviert sind 22, 53, 80, 443, 5353, 8080
-und 41000-41999.
+Platzhalter: `{TZ}`, `{PUID}`, `{PGID}`, `{HOSTNAME}`, `{DOMAIN}`, `{SECRET_<NAME>}`
+(Zufallswert, 32 Hex-Zeichen, bleibt bei Updates gleich). Andere Felder gibt es nicht;
+`privileged`, Host-Netzwerk, Geräte, Capabilities und beliebige Host-Pfade lehnt Dahlia ab.
+Deshalb fehlen Apps, die das brauchen (WireGuard, Tailscale, Frigate, Plex mit
+Host-Netzwerk, Zigbee-Sticks, alles mit Docker-Socket).
+
+Regeln der Prüfung: Version mit mindestens `major.minor` oder Datum; Web- und LAN-Ports
+im ganzen Katalog eindeutig; reserviert sind 22, 80, 443, 5353, 8080 und 41000-41999
+(53 nur als LAN-Port); `image: ...` steht auf einer eigenen Zeile.
+
+### Updates
+
+`tools/bump.py` liest die Tags jeder Registry und nimmt den neuesten Tag derselben Form
+(`1.2.3` -> `1.2.4`, nie `-rc1`, `latest` oder `1`). Standard ist: gleiche Hauptversion.
+Neue Hauptversionen stehen nur im Bericht des PRs und werden von Hand übernommen.
+`tools/bump.json` setzt je Image `major`, `patch` oder `hold`.
+
+Der Workflow braucht einmalig: Settings > Actions > General > "Allow GitHub Actions to
+create and approve pull requests". PRs aus dem Workflow starten keine weitere CI; er
+prüft den Katalog vor dem PR selbst.
 
 ### Neue App
 
-1. `apps/<id>.yaml` anlegen, ID in `index.json` eintragen.
-2. Prüfen: `python3 tools/check.py --linux ../dahlia-linux --images`
-3. Pull Request. Die CI prüft Vorlage und Image.
+1. `apps/<id>.yaml` anlegen.
+2. `python3 tools/build.py`
+3. Prüfen: `python3 tools/check.py --linux ../dahlia-linux --images`
+4. Pull Request.
 
 ## English
 
-Dahlia loads the catalog from
+Dahlia (0.4 and later) downloads `catalog.json` from
 `https://raw.githubusercontent.com/Fabiy99/dahlia-apps/main/` (configurable in
-`/etc/dahlia/apps.json`). In the dashboard: Apps, "Refresh catalog".
+`/etc/dahlia/apps.json`) every 6 hours and on "Refresh catalog" in the dashboard. When an
+installed app's template is newer, the dashboard shows "Update to X".
 
 ### Layout
 
 | File | Contents |
 | --- | --- |
-| `index.json` | `{"apps": [...]}`, all ids, sorted |
-| `apps/<id>.yaml` | one app template |
+| `apps/<id>.yaml` | one app template (schema 2) |
+| `catalog.json` | all templates in one file, written by `tools/build.py` |
 | `tools/check.py` | checks, run by CI on every PR |
+| `tools/bump.py` | looks for new image versions, rules in `tools/bump.json` |
+| `.github/workflows/bump.yml` | daily: new versions as pull request `bump/images` |
 
 ### Template
 
-See the example above. There are no other fields. Dahlia rejects `privileged`, host
-networking, devices, capabilities and arbitrary host paths. The web port is bound to
-127.0.0.1 only; in the LAN the app is reachable through nginx at
-`http://<server>:<public_port>/`. Public ports must not overlap between apps; 22, 53, 80,
-443, 5353, 8080 and 41000-41999 are reserved. `description` needs both `de` and `en`.
+See the example above. Placeholders: `{TZ}`, `{PUID}`, `{PGID}`, `{HOSTNAME}`, `{DOMAIN}`,
+`{SECRET_<NAME>}` (random, 32 hex characters, kept across updates). There are no other
+fields; Dahlia rejects `privileged`, host networking, devices, capabilities and arbitrary
+host paths, so apps that need those (WireGuard, Tailscale, Frigate, Plex with host
+networking, Zigbee sticks, anything with the Docker socket) are not in the catalog.
+
+Check rules: version with at least `major.minor` or a date; web and LAN ports unique
+across the catalog; 22, 80, 443, 5353, 8080 and 41000-41999 are reserved (53 only as a LAN
+port); `image: ...` on its own line.
+
+### Updates
+
+`tools/bump.py` reads each registry's tags and takes the newest tag of the same form
+(`1.2.3` -> `1.2.4`, never `-rc1`, `latest` or `1`). Default: same major version. New major
+versions are only listed in the PR report and applied by hand. `tools/bump.json` sets
+`major`, `patch` or `hold` per image.
+
+The workflow needs once: Settings > Actions > General > "Allow GitHub Actions to create
+and approve pull requests". PRs opened by the workflow start no further CI; it checks the
+catalog itself before opening the PR.
 
 ### New app
 
-1. Add `apps/<id>.yaml` and the id in `index.json`.
-2. Check: `python3 tools/check.py --linux ../dahlia-linux --images`
-3. Open a pull request. CI checks the template and the image.
+1. Add `apps/<id>.yaml`.
+2. `python3 tools/build.py`
+3. Check: `python3 tools/check.py --linux ../dahlia-linux --images`
+4. Open a pull request.
 
 ## Lizenz / License
 

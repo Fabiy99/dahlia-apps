@@ -1,0 +1,11 @@
+schema: 2
+id: it-tools
+name: IT-Tools
+category: tools
+description:
+  de: "Sammlung kleiner Werkzeuge für Entwickler und Admins."
+  en: "Collection of handy tools for developers and admins."
+web: {port: 80, public_port: 8290}
+services:
+  app:
+    image: corentinth/it-tools:2024.10.22-7ca5933

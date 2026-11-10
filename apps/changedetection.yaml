@@ -1,0 +1,15 @@
+schema: 2
+id: changedetection
+name: changedetection.io
+category: monitoring
+description:
+  de: "Meldet Änderungen auf Webseiten."
+  en: "Notifies you about changes on web pages."
+web: {port: 5000, public_port: 5001}
+services:
+  app:
+    image: ghcr.io/dgtlmoon/changedetection.io:0.70.3
+    volumes:
+      - {container: /datastore, appdata: data}
+    environment:
+      TZ: "{TZ}"

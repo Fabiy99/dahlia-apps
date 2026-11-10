@@ -1,0 +1,19 @@
+schema: 2
+id: home-assistant
+name: Home Assistant
+category: home
+description:
+  de: "Hausautomation für Geräte vieler Hersteller."
+  en: "Home automation for devices from many vendors."
+website: https://www.home-assistant.io/
+notes:
+  de: "Ohne Host-Netzwerk und USB-Geräte: automatische Erkennung im LAN und Zigbee-Sticks gehen nicht."
+  en: "No host network and no USB devices: LAN discovery and Zigbee sticks do not work."
+web: {port: 8123, public_port: 8123}
+services:
+  app:
+    image: ghcr.io/home-assistant/home-assistant:2026.11.1
+    volumes:
+      - {container: /config, appdata: config}
+    environment:
+      TZ: "{TZ}"

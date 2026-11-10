@@ -1,0 +1,21 @@
+schema: 2
+id: calibre-web
+name: Calibre-Web
+category: books
+description:
+  de: "Web-Oberfläche für eine Calibre-Bibliothek in der Freigabe books."
+  en: "Web interface for a Calibre library in the books share."
+notes:
+  de: "Standard-Login admin / admin123, sofort ändern."
+  en: "Default login admin / admin123, change it right away."
+web: {port: 8083, public_port: 8083}
+services:
+  app:
+    image: ghcr.io/linuxserver/calibre-web:version-0.6.27
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /books, share: books}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

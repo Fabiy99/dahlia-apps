@@ -1,0 +1,19 @@
+schema: 2
+id: owncast
+name: Owncast
+category: media
+description:
+  de: "Eigener Livestream-Server mit Chat."
+  en: "Self-hosted live streaming server with chat."
+website: https://owncast.online/
+notes:
+  de: "Admin unter /admin, Login admin / abc123, sofort ändern. RTMP auf Port 1935."
+  en: "Admin at /admin, login admin / abc123, change it right away. RTMP on port 1935."
+web: {port: 8080, public_port: 8085}
+services:
+  app:
+    image: owncast/owncast:0.3.0
+    lan_ports:
+      - {container: 1935, host: 1935, protocol: tcp}
+    volumes:
+      - {container: /app/data, appdata: data}

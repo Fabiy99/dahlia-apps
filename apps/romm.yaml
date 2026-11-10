@@ -1,0 +1,34 @@
+schema: 2
+id: romm
+name: RomM
+category: other
+description:
+  de: "Verwaltet ROM-Sammlungen und spielt sie im Browser."
+  en: "Manages ROM collections and plays them in the browser."
+web: {port: 8080, public_port: 8304}
+services:
+  app:
+    image: rommapp/romm:5.4.1
+    depends_on: [db]
+    volumes:
+      - {container: /romm/resources, appdata: resources}
+      - {container: /romm/library, share: games}
+      - {container: /romm/assets, appdata: assets}
+      - {container: /romm/config, appdata: config}
+    environment:
+      DB_HOST: "db"
+      DB_NAME: "romm"
+      DB_USER: "romm"
+      DB_PASSWD: "{SECRET_DB}"
+      ROMM_AUTH_SECRET_KEY: "{SECRET_KEY}{SECRET_KEY2}"
+  db:
+    image: mariadb:11.8.9
+    volumes:
+      - {container: /var/lib/mysql, appdata: db}
+    environment:
+      MARIADB_DATABASE: "romm"
+      MARIADB_USER: "romm"
+      MARIADB_PASSWORD: "{SECRET_DB}"
+      MARIADB_ROOT_PASSWORD: "{SECRET_DBROOT}"
+      MARIADB_AUTO_UPGRADE: "1"
+    command: ["--innodb-use-native-aio=0", "--innodb-flush-method=fsync"]

@@ -1,0 +1,18 @@
+schema: 2
+id: mumble
+name: Mumble
+category: communication
+description:
+  de: "Sprachchat mit niedriger Latenz."
+  en: "Low latency voice chat."
+login: {user: "SuperUser", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: mumblevoip/mumble-server:v1.6.1001
+    lan_ports:
+      - {container: 64738, host: 64738, protocol: tcp}
+      - {container: 64738, host: 64738, protocol: udp}
+    volumes:
+      - {container: /data, appdata: data}
+    environment:
+      MUMBLE_SUPERUSER_PASSWORD: "{SECRET_ADMIN}"

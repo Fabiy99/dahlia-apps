@@ -1,0 +1,37 @@
+schema: 2
+id: firefly
+name: Firefly III
+category: productivity
+description:
+  de: "Persönliche Finanzen und Konten verwalten."
+  en: "Manage personal finances and accounts."
+website: https://www.firefly-iii.org/
+web: {port: 8080, public_port: 8180}
+services:
+  app:
+    image: fireflyiii/core:version-6.7.9
+    depends_on: [db]
+    volumes:
+      - {container: /var/www/html/storage/upload, appdata: upload}
+    environment:
+      APP_KEY: "{SECRET_KEY}"
+      APP_URL: "https://firefly.{DOMAIN}"
+      TRUSTED_PROXIES: "**"
+      DB_CONNECTION: "mysql"
+      DB_HOST: "db"
+      DB_PORT: "3306"
+      DB_DATABASE: "firefly"
+      DB_USERNAME: "firefly"
+      DB_PASSWORD: "{SECRET_DB}"
+      TZ: "{TZ}"
+  db:
+    image: mariadb:11.8.9
+    volumes:
+      - {container: /var/lib/mysql, appdata: db}
+    environment:
+      MARIADB_DATABASE: "firefly"
+      MARIADB_USER: "firefly"
+      MARIADB_PASSWORD: "{SECRET_DB}"
+      MARIADB_ROOT_PASSWORD: "{SECRET_DBROOT}"
+      MARIADB_AUTO_UPGRADE: "1"
+    command: ["--innodb-use-native-aio=0", "--innodb-flush-method=fsync"]

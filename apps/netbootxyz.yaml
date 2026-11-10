@@ -1,0 +1,20 @@
+schema: 2
+id: netbootxyz
+name: netboot.xyz
+category: network
+description:
+  de: "PXE-Server, startet Installer über das Netz."
+  en: "PXE server that boots installers over the network."
+web: {port: 3000, public_port: 3020}
+services:
+  app:
+    image: ghcr.io/linuxserver/netbootxyz:version-0.7.6
+    lan_ports:
+      - {container: 69, host: 69, protocol: udp}
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /assets, appdata: assets}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

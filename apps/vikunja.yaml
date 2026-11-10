@@ -1,0 +1,20 @@
+schema: 2
+id: vikunja
+name: Vikunja
+category: productivity
+description:
+  de: "Aufgaben und Projekte mit Listen, Kanban und Gantt."
+  en: "Tasks and projects with lists, kanban and Gantt."
+web: {port: 3456, public_port: 3456}
+services:
+  app:
+    image: vikunja/vikunja:2.8.0
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /app/vikunja/files, appdata: files}
+      - {container: /db, appdata: db}
+    environment:
+      VIKUNJA_SERVICE_JWTSECRET: "{SECRET_JWT}"
+      VIKUNJA_SERVICE_PUBLICURL: "https://vikunja.{DOMAIN}/"
+      VIKUNJA_DATABASE_PATH: "/db/vikunja.db"
+      TZ: "{TZ}"

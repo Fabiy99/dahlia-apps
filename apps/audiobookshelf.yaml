@@ -1,0 +1,19 @@
+schema: 2
+id: audiobookshelf
+name: Audiobookshelf
+category: books
+description:
+  de: "Server für Hörbücher und Podcasts mit Apps für Android und iOS."
+  en: "Server for audiobooks and podcasts with apps for Android and iOS."
+website: https://www.audiobookshelf.org/
+web: {port: 80, public_port: 13378}
+services:
+  app:
+    image: ghcr.io/advplyr/audiobookshelf:2.37.2
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /metadata, appdata: metadata}
+      - {container: /audiobooks, share: audiobooks}
+      - {container: /podcasts, share: podcasts}
+    environment:
+      TZ: "{TZ}"

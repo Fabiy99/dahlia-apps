@@ -1,0 +1,16 @@
+schema: 2
+id: homebox
+name: HomeBox
+category: productivity
+description:
+  de: "Inventar für Haushalt und Werkstatt."
+  en: "Inventory for home and workshop."
+web: {port: 7745, public_port: 7745}
+services:
+  app:
+    image: ghcr.io/sysadminsmedia/homebox:0.27.1
+    volumes:
+      - {container: /data, appdata: data}
+    environment:
+      HBOX_OPTIONS_ALLOW_REGISTRATION: "true"
+      TZ: "{TZ}"

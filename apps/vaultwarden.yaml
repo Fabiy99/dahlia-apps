@@ -1,0 +1,19 @@
+schema: 2
+id: vaultwarden
+name: Vaultwarden
+category: security
+description:
+  de: "Passwort-Manager, kompatibel mit den Bitwarden-Apps."
+  en: "Password manager compatible with the Bitwarden apps."
+website: https://github.com/dani-garcia/vaultwarden
+notes:
+  de: "Nur über https://vaultwarden.<Domain> nutzbar (der Browser verlangt HTTPS)."
+  en: "Only usable at https://vaultwarden.<domain> (browsers require HTTPS)."
+web: {port: 80, public_port: 8094}
+services:
+  app:
+    image: vaultwarden/server:1.37.5
+    volumes:
+      - {container: /data, appdata: data}
+    environment:
+      DOMAIN: "https://vaultwarden.{DOMAIN}"

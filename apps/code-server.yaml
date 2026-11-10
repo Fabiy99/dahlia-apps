@@ -1,0 +1,21 @@
+schema: 2
+id: code-server
+name: code-server
+category: development
+description:
+  de: "VS Code im Browser."
+  en: "VS Code in the browser."
+web: {port: 8443, public_port: 8443}
+login: {password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: ghcr.io/linuxserver/code-server:version-4.145.2
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /workspace, share: code}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      PASSWORD: "{SECRET_ADMIN}"
+      DEFAULT_WORKSPACE: "/workspace"

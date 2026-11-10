@@ -1,0 +1,16 @@
+schema: 2
+id: metube
+name: MeTube
+category: media
+description:
+  de: "Lädt Videos von YouTube und anderen Seiten über yt-dlp."
+  en: "Downloads videos from YouTube and other sites with yt-dlp."
+web: {port: 8081, public_port: 8081}
+services:
+  app:
+    image: ghcr.io/alexta69/metube:2026.11.06
+    volumes:
+      - {container: /downloads, share: downloads}
+    environment:
+      UID: "{PUID}"
+      GID: "{PGID}"

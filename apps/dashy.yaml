@@ -1,0 +1,13 @@
+schema: 2
+id: dashy
+name: Dashy
+category: tools
+description:
+  de: "Konfigurierbare Startseite für das Homelab."
+  en: "Configurable start page for the homelab."
+web: {port: 8080, public_port: 8289}
+services:
+  app:
+    image: lissy93/dashy:4.9.17
+    volumes:
+      - {container: /app/user-data, appdata: data}

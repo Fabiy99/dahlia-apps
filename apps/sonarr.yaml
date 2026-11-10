@@ -1,0 +1,22 @@
+schema: 2
+id: sonarr
+name: Sonarr
+category: downloads
+description:
+  de: "Verwaltet Serien und lädt neue Folgen."
+  en: "Manages TV shows and fetches new episodes."
+notes:
+  de: "Bibliothek unter /media (Freigabe media), Downloads unter /downloads (Freigabe downloads)."
+  en: "Library in /media (share media), downloads in /downloads (share downloads)."
+web: {port: 8989, public_port: 8989}
+services:
+  app:
+    image: ghcr.io/linuxserver/sonarr:version-4.0.20.3014
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /media, share: media}
+      - {container: /downloads, share: downloads}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

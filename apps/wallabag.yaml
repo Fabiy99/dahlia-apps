@@ -1,0 +1,19 @@
+schema: 2
+id: wallabag
+name: wallabag
+category: productivity
+description:
+  de: "Artikel speichern und später lesen."
+  en: "Save articles and read them later."
+notes:
+  de: "Standard-Login wallabag / wallabag, sofort ändern."
+  en: "Default login wallabag / wallabag, change it right away."
+web: {port: 80, public_port: 8283}
+services:
+  app:
+    image: wallabag/wallabag:2.6.15
+    volumes:
+      - {container: /var/www/wallabag/data, appdata: data}
+      - {container: /var/www/wallabag/web/assets/images, appdata: images}
+    environment:
+      SYMFONY__ENV__DOMAIN_NAME: "https://wallabag.{DOMAIN}"

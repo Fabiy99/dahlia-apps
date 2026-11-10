@@ -1,0 +1,17 @@
+schema: 2
+id: heimdall
+name: Heimdall
+category: tools
+description:
+  de: "Einfache Startseite mit Links."
+  en: "Simple start page with links."
+web: {port: 80, public_port: 8288}
+services:
+  app:
+    image: ghcr.io/linuxserver/heimdall:version-v2.8.4
+    volumes:
+      - {container: /config, appdata: config}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

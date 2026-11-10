@@ -1,0 +1,19 @@
+schema: 2
+id: handbrake
+name: HandBrake
+category: media
+description:
+  de: "Video-Konverter im Browser."
+  en: "Video converter in the browser."
+web: {port: 5800, public_port: 5800}
+services:
+  app:
+    image: jlesage/handbrake:v26.09.1
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /storage, share: media, readonly: true}
+      - {container: /output, share: downloads}
+    environment:
+      USER_ID: "{PUID}"
+      GROUP_ID: "{PGID}"
+      TZ: "{TZ}"

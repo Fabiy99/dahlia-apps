@@ -1,0 +1,22 @@
+schema: 2
+id: duplicati
+name: Duplicati
+category: cloud
+description:
+  de: "Verschlüsselte Backups der Freigaben in die Cloud oder auf Platten."
+  en: "Encrypted backups of your shares to the cloud or to disks."
+web: {port: 8200, public_port: 8200}
+login: {password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: ghcr.io/linuxserver/duplicati:version-v2.4.1.0_stable_2026-10-29
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /source, share: media, readonly: true}
+      - {container: /backups, share: backups}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      SETTINGS_ENCRYPTION_KEY: "{SECRET_KEY}"
+      DUPLICATI__WEBSERVICE_PASSWORD: "{SECRET_ADMIN}"

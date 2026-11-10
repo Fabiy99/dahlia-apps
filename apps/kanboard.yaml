@@ -1,0 +1,17 @@
+schema: 2
+id: kanboard
+name: Kanboard
+category: productivity
+description:
+  de: "Schlankes Kanban-Board für Projekte."
+  en: "Lean kanban board for projects."
+notes:
+  de: "Standard-Login admin / admin, sofort ändern."
+  en: "Default login admin / admin, change it right away."
+web: {port: 80, public_port: 8298}
+services:
+  app:
+    image: kanboard/kanboard:v1.2.57
+    volumes:
+      - {container: /var/www/app/data, appdata: data}
+      - {container: /var/www/app/plugins, appdata: plugins}
