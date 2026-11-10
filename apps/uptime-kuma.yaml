@@ -1,0 +1,12 @@
+schema: 1
+id: uptime-kuma
+name: Uptime Kuma
+description:
+  de: Überwacht Webseiten und Dienste und meldet Ausfälle.
+  en: Monitors websites and services and reports outages.
+image: louislam/uptime-kuma:1.23.16
+web: {port: 3001, public_port: 3001}
+volumes:
+  - {container: /app/data, appdata: data}
+environment:
+  TZ: "{TZ}"

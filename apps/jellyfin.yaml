@@ -1,0 +1,14 @@
+schema: 1
+id: jellyfin
+name: Jellyfin
+description:
+  de: Medienserver für Filme, Serien und Musik aus der Freigabe media.
+  en: Media server for movies, shows and music from the media share.
+image: jellyfin/jellyfin:10.10.7
+web: {port: 8096, public_port: 8096}
+volumes:
+  - {container: /config, appdata: config}
+  - {container: /cache, appdata: cache}
+  - {container: /media, share: media, readonly: true}
+environment:
+  TZ: "{TZ}"

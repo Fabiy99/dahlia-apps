@@ -1,0 +1,36 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  templates:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # The parser that Dahlia itself uses to load templates.
+      - uses: actions/checkout@v4
+        with:
+          repository: Fabiy99/dahlia-linux
+          ref: main
+          path: dahlia-linux
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install tools
+        run: pip install pyyaml ruff
+
+      - name: ruff
+        run: ruff check tools
+
+      - name: Check templates and images
+        run: python3 tools/check.py --linux dahlia-linux --images
