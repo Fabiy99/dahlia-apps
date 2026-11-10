@@ -1,0 +1,16 @@
+schema: 2
+id: maintainerr
+name: Maintainerr
+category: media
+description:
+  de: "Räumt ungesehene Filme und Serien nach Regeln auf (Plex, Jellyfin)."
+  en: "Cleans up unwatched movies and shows by rules (Plex, Jellyfin)."
+web: {port: 6246, public_port: 8307}
+services:
+  app:
+    image: ghcr.io/jorenn92/maintainerr:2.19.0
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /opt/data, appdata: data}
+    environment:
+      TZ: "{TZ}"

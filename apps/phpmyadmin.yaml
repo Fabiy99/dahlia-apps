@@ -1,0 +1,16 @@
+schema: 2
+id: phpmyadmin
+name: phpMyAdmin
+category: development
+description:
+  de: "MySQL- und MariaDB-Datenbanken im Browser verwalten."
+  en: "Manage MySQL and MariaDB databases in the browser."
+notes:
+  de: "Server beim Login angeben, etwa die IP des Servers und den LAN-Port der Datenbank."
+  en: "Enter the server at login, for example the server IP and the database's LAN port."
+web: {port: 80, public_port: 8332}
+services:
+  app:
+    image: phpmyadmin:5.2.3
+    environment:
+      PMA_ARBITRARY: "1"

@@ -1,0 +1,38 @@
+schema: 2
+id: leantime
+name: Leantime
+category: productivity
+description:
+  de: "Projektmanagement mit Aufgaben, Zeitplan und Zielen."
+  en: "Project management with tasks, timeline and goals."
+website: https://leantime.io/
+notes:
+  de: "Der erste Aufruf führt durch die Einrichtung."
+  en: "The first visit runs the setup."
+web: {port: 8080, public_port: 8317}
+services:
+  app:
+    image: leantime/leantime:3.13.2
+    depends_on: [db]
+    volumes:
+      - {container: /var/www/html/userfiles, appdata: userfiles}
+      - {container: /var/www/html/public/userfiles, appdata: public}
+    environment:
+      LEAN_DB_HOST: "db"
+      LEAN_DB_PORT: "3306"
+      LEAN_DB_USER: "leantime"
+      LEAN_DB_PASSWORD: "{SECRET_DB}"
+      LEAN_DB_DATABASE: "leantime"
+      LEAN_SESSION_PASSWORD: "{SECRET_SESSION}"
+      LEAN_DEFAULT_TIMEZONE: "{TZ}"
+  db:
+    image: mariadb:11.8.9
+    volumes:
+      - {container: /var/lib/mysql, appdata: db}
+    environment:
+      MARIADB_DATABASE: "leantime"
+      MARIADB_USER: "leantime"
+      MARIADB_PASSWORD: "{SECRET_DB}"
+      MARIADB_ROOT_PASSWORD: "{SECRET_DBROOT}"
+      MARIADB_AUTO_UPGRADE: "1"
+    command: ["--innodb-use-native-aio=0", "--innodb-flush-method=fsync"]

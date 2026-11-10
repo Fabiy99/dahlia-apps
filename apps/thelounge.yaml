@@ -1,0 +1,20 @@
+schema: 2
+id: thelounge
+name: The Lounge
+category: communication
+description:
+  de: "IRC-Client im Browser, bleibt immer verbunden."
+  en: "IRC client in the browser that stays connected."
+notes:
+  de: "Benutzer anlegen: sudo docker exec -it dahlia-thelounge s6-setuidgid abc thelounge add <name>"
+  en: "Add a user: sudo docker exec -it dahlia-thelounge s6-setuidgid abc thelounge add <name>"
+web: {port: 9000, public_port: 8343}
+services:
+  app:
+    image: ghcr.io/linuxserver/thelounge:version-v4.5.2
+    volumes:
+      - {container: /config, appdata: config}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

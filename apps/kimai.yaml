@@ -1,0 +1,33 @@
+schema: 2
+id: kimai
+name: Kimai
+category: productivity
+description:
+  de: "Zeiterfassung für Freiberufler und Teams."
+  en: "Time tracking for freelancers and teams."
+website: https://www.kimai.org/
+web: {port: 8001, public_port: 8316}
+login: {user: "admin@example.com", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: kimai/kimai2:apache-2.57.0
+    depends_on: [db]
+    volumes:
+      - {container: /opt/kimai/var/data, appdata: data}
+      - {container: /opt/kimai/var/plugins, appdata: plugins}
+    environment:
+      DATABASE_URL: "mysql://kimai:{SECRET_DB}@db/kimai?charset=utf8mb4&serverVersion=11.8.0-MariaDB"
+      ADMINMAIL: "admin@example.com"
+      ADMINPASS: "{SECRET_ADMIN}"
+      TZ: "{TZ}"
+  db:
+    image: mariadb:11.8.9
+    volumes:
+      - {container: /var/lib/mysql, appdata: db}
+    environment:
+      MARIADB_DATABASE: "kimai"
+      MARIADB_USER: "kimai"
+      MARIADB_PASSWORD: "{SECRET_DB}"
+      MARIADB_ROOT_PASSWORD: "{SECRET_DBROOT}"
+      MARIADB_AUTO_UPGRADE: "1"
+    command: ["--innodb-use-native-aio=0", "--innodb-flush-method=fsync"]

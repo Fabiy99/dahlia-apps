@@ -1,0 +1,26 @@
+schema: 2
+id: n8n
+name: n8n
+category: productivity
+description:
+  de: "Automatisiert Abläufe zwischen Diensten, ähnlich Zapier."
+  en: "Automates workflows between services, similar to Zapier."
+website: https://n8n.io/
+notes:
+  de: "Der erste Aufruf legt das Owner-Konto an."
+  en: "The first visit creates the owner account."
+web: {port: 5678, public_port: 8314}
+services:
+  app:
+    image: n8nio/n8n:3.2.0
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /home/node/.n8n, appdata: data}
+    environment:
+      GENERIC_TIMEZONE: "{TZ}"
+      TZ: "{TZ}"
+      N8N_SECURE_COOKIE: "false"
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      HOME: "/home/node"
+      N8N_USER_FOLDER: "/home/node"
+      N8N_LISTEN_ADDRESS: "0.0.0.0"

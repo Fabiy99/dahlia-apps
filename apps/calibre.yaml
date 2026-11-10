@@ -1,0 +1,21 @@
+schema: 2
+id: calibre
+name: Calibre
+category: books
+description:
+  de: "Die Desktop-Anwendung Calibre im Browser, zum Verwalten der E-Book-Bibliothek."
+  en: "The Calibre desktop application in the browser, to manage the e-book library."
+notes:
+  de: "Bibliothek unter /books anlegen (Freigabe books), dann kann Calibre-Web sie nutzen."
+  en: "Create the library in /books (share books) so Calibre-Web can use it."
+web: {port: 8080, public_port: 8310}
+services:
+  app:
+    image: ghcr.io/linuxserver/calibre:version-v9.18.0
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /books, share: books}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

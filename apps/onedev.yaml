@@ -1,0 +1,19 @@
+schema: 2
+id: onedev
+name: OneDev
+category: development
+description:
+  de: "Git-Server mit CI/CD, Issues und Pull Requests."
+  en: "Git server with CI/CD, issues and pull requests."
+website: https://onedev.io/
+notes:
+  de: "Der erste Aufruf legt das Admin-Konto an. SSH auf Port 6611."
+  en: "The first visit creates the admin account. SSH on port 6611."
+web: {port: 6610, public_port: 8345}
+services:
+  app:
+    image: 1dev/server:17.1.2
+    lan_ports:
+      - {container: 6611, host: 6611, protocol: tcp}
+    volumes:
+      - {container: /opt/onedev, appdata: data}

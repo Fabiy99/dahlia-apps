@@ -1,0 +1,39 @@
+schema: 2
+id: snipe-it
+name: Snipe-IT
+category: productivity
+description:
+  de: "Inventar für Hardware, Lizenzen und Zubehör."
+  en: "Inventory for hardware, licenses and accessories."
+website: https://snipeitapp.com/
+notes:
+  de: "Über https://snipe-it.<Domain> aufrufen, damit Links und Anmeldung stimmen."
+  en: "Open it at https://snipe-it.<domain> so links and login work."
+web: {port: 80, public_port: 8346}
+services:
+  app:
+    image: snipe/snipe-it:v8.8.3
+    depends_on: [db]
+    volumes:
+      - {container: /var/lib/snipeit, appdata: data}
+    environment:
+      APP_KEY: "{SECRET_APPKEY}"
+      APP_URL: "https://snipe-it.{DOMAIN}"
+      APP_TIMEZONE: "{TZ}"
+      DB_CONNECTION: "mysql"
+      DB_HOST: "db"
+      DB_PORT: "3306"
+      DB_DATABASE: "snipeit"
+      DB_USERNAME: "snipeit"
+      DB_PASSWORD: "{SECRET_DB}"
+  db:
+    image: mariadb:11.8.9
+    volumes:
+      - {container: /var/lib/mysql, appdata: db}
+    environment:
+      MARIADB_DATABASE: "snipeit"
+      MARIADB_USER: "snipeit"
+      MARIADB_PASSWORD: "{SECRET_DB}"
+      MARIADB_ROOT_PASSWORD: "{SECRET_DBROOT}"
+      MARIADB_AUTO_UPGRADE: "1"
+    command: ["--innodb-use-native-aio=0", "--innodb-flush-method=fsync"]

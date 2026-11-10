@@ -1,0 +1,17 @@
+schema: 2
+id: spoolman
+name: Spoolman
+category: home
+description:
+  de: "Verwaltet Filamentrollen für 3D-Drucker."
+  en: "Keeps track of 3D printer filament spools."
+web: {port: 8000, public_port: 8337}
+services:
+  app:
+    image: ghcr.io/donkie/spoolman:0.27.1
+    volumes:
+      - {container: /home/app/.local/share/spoolman, appdata: data}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"

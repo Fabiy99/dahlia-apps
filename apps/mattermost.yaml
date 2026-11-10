@@ -1,0 +1,37 @@
+schema: 2
+id: mattermost
+name: Mattermost
+category: communication
+description:
+  de: "Team-Chat mit Kanälen, Threads und Apps."
+  en: "Team chat with channels, threads and apps."
+website: https://mattermost.com/
+notes:
+  de: "Über https://mattermost.<Domain> aufrufen, damit Links und Anmeldung stimmen."
+  en: "Open it at https://mattermost.<domain> so links and login work."
+web: {port: 8065, public_port: 8342}
+services:
+  app:
+    image: mattermost/mattermost-team-edition:12.1.0
+    depends_on: [db]
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /mattermost/config, appdata: config}
+      - {container: /mattermost/data, appdata: data}
+      - {container: /mattermost/logs, appdata: logs}
+      - {container: /mattermost/plugins, appdata: plugins}
+      - {container: /mattermost/client/plugins, appdata: client-plugins}
+      - {container: /mattermost/bleve-indexes, appdata: bleve}
+    environment:
+      MM_SQLSETTINGS_DRIVERNAME: "postgres"
+      MM_SQLSETTINGS_DATASOURCE: "postgres://mattermost:{SECRET_DB}@db:5432/mattermost?sslmode=disable&connect_timeout=10"
+      MM_SERVICESETTINGS_SITEURL: "https://mattermost.{DOMAIN}"
+      TZ: "{TZ}"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "mattermost"
+      POSTGRES_USER: "mattermost"
+      POSTGRES_PASSWORD: "{SECRET_DB}"

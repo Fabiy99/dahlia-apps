@@ -1,0 +1,23 @@
+schema: 2
+id: onlyoffice
+name: ONLYOFFICE Docs
+category: productivity
+description:
+  de: "Office-Dokumente im Browser bearbeiten, etwa zusammen mit Nextcloud."
+  en: "Edit office documents in the browser, for example with Nextcloud."
+website: https://www.onlyoffice.com/
+notes:
+  de: "Das JWT-Secret für Nextcloud steht in /var/lib/dahlia/apps/onlyoffice/secrets.json."
+  en: "The JWT secret for Nextcloud is in /var/lib/dahlia/apps/onlyoffice/secrets.json."
+web: {port: 80, public_port: 8321}
+services:
+  app:
+    image: onlyoffice/documentserver:10.0.0
+    volumes:
+      - {container: /var/www/onlyoffice/Data, appdata: data}
+      - {container: /var/log/onlyoffice, appdata: logs}
+      - {container: /var/lib/onlyoffice, appdata: cache}
+      - {container: /var/lib/postgresql, appdata: db}
+    environment:
+      JWT_ENABLED: "true"
+      JWT_SECRET: "{SECRET_JWT}"

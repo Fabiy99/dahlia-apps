@@ -1,0 +1,27 @@
+schema: 2
+id: backrest
+name: Backrest
+category: cloud
+description:
+  de: "Web-Oberfläche für restic-Backups mit Zeitplänen."
+  en: "Web interface for restic backups with schedules."
+website: https://garethgeorge.github.io/backrest/
+notes:
+  de: "Der erste Aufruf legt das Konto an."
+  en: "The first visit creates the account."
+web: {port: 9898, public_port: 8335}
+services:
+  app:
+    image: garethgeorge/backrest:v1.14.1
+    volumes:
+      - {container: /data, appdata: data}
+      - {container: /config, appdata: config}
+      - {container: /cache, appdata: cache}
+      - {container: /repos, appdata: repos}
+      - {container: /userdata/documents, share: documents, readonly: true}
+      - {container: /userdata/photos, share: photos, readonly: true}
+    environment:
+      BACKREST_DATA: "/data"
+      BACKREST_CONFIG: "/config/config.json"
+      XDG_CACHE_HOME: "/cache"
+      TZ: "{TZ}"

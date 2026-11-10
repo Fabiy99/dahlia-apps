@@ -5,6 +5,7 @@ Docker Hub counts manifest GETs against a small anonymous pull limit, so
 existence checks use HEAD requests, which it does not count.
 """
 
+import http.client
 import json
 import re
 import time
@@ -53,9 +54,11 @@ def _request(method: str, url: str, headers: dict) -> tuple[int, dict, bytes]:
                 time.sleep(2 ** attempt * 3)
                 continue
             return e.code, dict(e.headers), e.read()
-        except (urllib.error.URLError, TimeoutError) as e:
+        # Registries and CDNs drop connections now and then under load;
+        # http.client raises those as RemoteDisconnected/ConnectionError.
+        except (urllib.error.URLError, TimeoutError, ConnectionError, http.client.HTTPException) as e:
             if attempt < 3:
-                time.sleep(2 ** attempt)
+                time.sleep(2 ** attempt * 3)
                 continue
             raise RegistryError(f"{url}: {e}") from None
     raise RegistryError(f"{url}: giving up")

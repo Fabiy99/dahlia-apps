@@ -1,0 +1,20 @@
+schema: 2
+id: apprise
+name: Apprise API
+category: communication
+description:
+  de: "Ein Endpunkt für Benachrichtigungen an über 100 Dienste."
+  en: "One endpoint for notifications to more than 100 services."
+web: {port: 8000, public_port: 8341}
+services:
+  app:
+    image: caronc/apprise:2.1.0
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /attach, appdata: attach}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      APPRISE_STATEFUL_MODE: "simple"
+      IPV4_ONLY: "yes"

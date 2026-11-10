@@ -1,0 +1,16 @@
+schema: 2
+id: whisper
+name: Whisper ASR
+category: tools
+description:
+  de: "Spracherkennung mit OpenAI Whisper als Web-API."
+  en: "Speech recognition with OpenAI Whisper as a web API."
+web: {port: 9000, public_port: 8328}
+services:
+  app:
+    image: onerahmet/openai-whisper-asr-webservice:v1.10.0
+    volumes:
+      - {container: /root/.cache, appdata: cache}
+    environment:
+      ASR_MODEL: "base"
+      ASR_ENGINE: "faster_whisper"

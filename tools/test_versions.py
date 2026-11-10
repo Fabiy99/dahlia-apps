@@ -28,7 +28,7 @@ class Versions(unittest.TestCase):
         self.assertEqual(versions.shape("1.2.3-4e8b05daf"), "#.#.#-@")
 
     def test_pinned(self):
-        for tag in ("1.2", "v1.10.3", "17.6-alpine", "250707", "version-6.4.2"):
+        for tag in ("1.2", "v1.10.3", "17.6-alpine", "250707", "version-6.4.2", "version-2026-07-14c"):
             self.assertTrue(versions.pinned(tag), tag)
         for tag in ("1", "stable", "latest", "v2", "nightly"):
             self.assertFalse(versions.pinned(tag), tag)

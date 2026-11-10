@@ -1,0 +1,28 @@
+schema: 2
+id: kopia
+name: Kopia
+category: cloud
+description:
+  de: "Verschlüsselte, deduplizierte Backups mit Web-Oberfläche."
+  en: "Encrypted, deduplicated backups with web interface."
+website: https://kopia.io/
+notes:
+  de: "Repository unter /repository anlegen oder ein externes Ziel wählen; Quellen liegen unter /data."
+  en: "Create the repository in /repository or choose a remote target; sources are in /data."
+web: {port: 51515, public_port: 8334}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: kopia/kopia:0.23.1
+    volumes:
+      - {container: /app/config, appdata: config}
+      - {container: /app/cache, appdata: cache}
+      - {container: /app/logs, appdata: logs}
+      - {container: /repository, appdata: repository}
+      - {container: /data/documents, share: documents, readonly: true}
+      - {container: /data/photos, share: photos, readonly: true}
+    environment:
+      KOPIA_PASSWORD: "{SECRET_REPO}"
+      TZ: "{TZ}"
+      USER: "admin"
+    command: ["server", "start", "--insecure", "--address=0.0.0.0:51515", "--server-username=admin", "--server-password={SECRET_ADMIN}"]

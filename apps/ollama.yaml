@@ -1,0 +1,17 @@
+schema: 2
+id: ollama
+name: Ollama
+category: tools
+description:
+  de: "Sprachmodelle lokal ausführen, als API für Open WebUI und andere."
+  en: "Run language models locally, as an API for Open WebUI and others."
+website: https://ollama.com/
+notes:
+  de: "Läuft auf der CPU. In Open WebUI als Adresse http://{HOSTNAME}.local:11434 eintragen."
+  en: "Runs on the CPU. In Open WebUI use http://{HOSTNAME}.local:11434 as address."
+web: {port: 11434, public_port: 11434}
+services:
+  app:
+    image: ollama/ollama:0.40.16
+    volumes:
+      - {container: /root/.ollama, appdata: models}

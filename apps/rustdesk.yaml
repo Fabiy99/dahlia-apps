@@ -1,0 +1,30 @@
+schema: 2
+id: rustdesk
+name: RustDesk Server
+category: network
+description:
+  de: "Eigener ID- und Relay-Server für RustDesk-Fernwartung."
+  en: "Own ID and relay server for RustDesk remote desktop."
+website: https://rustdesk.com/
+notes:
+  de: "Im Client den Server und den Schlüssel aus /mnt/user/appdata/rustdesk/data/id_ed25519.pub eintragen."
+  en: "In the client enter the server and the key from /mnt/user/appdata/rustdesk/data/id_ed25519.pub."
+services:
+  app:
+    image: rustdesk/rustdesk-server:1.1.16
+    lan_ports:
+      - {container: 21115, host: 21115, protocol: tcp}
+      - {container: 21116, host: 21116, protocol: tcp}
+      - {container: 21116, host: 21116, protocol: udp}
+      - {container: 21118, host: 21118, protocol: tcp}
+    volumes:
+      - {container: /root, appdata: data}
+    command: ["hbbs"]
+  relay:
+    image: rustdesk/rustdesk-server:1.1.16
+    lan_ports:
+      - {container: 21117, host: 21117, protocol: tcp}
+      - {container: 21119, host: 21119, protocol: tcp}
+    volumes:
+      - {container: /root, appdata: relay}
+    command: ["hbbr"]

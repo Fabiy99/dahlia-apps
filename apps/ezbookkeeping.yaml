@@ -1,0 +1,19 @@
+schema: 2
+id: ezbookkeeping
+name: ezBookkeeping
+category: productivity
+description:
+  de: "Haushaltsbuch für Einnahmen und Ausgaben."
+  en: "Personal bookkeeping for income and expenses."
+website: https://ezbookkeeping.mayswind.net/
+web: {port: 8080, public_port: 8326}
+services:
+  app:
+    image: mayswind/ezbookkeeping:2.1.1
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /ezbookkeeping/data, appdata: data}
+      - {container: /ezbookkeeping/storage, appdata: storage}
+      - {container: /ezbookkeeping/log, appdata: log}
+    environment:
+      EBK_SERVER_DOMAIN: "{HOSTNAME}.local"

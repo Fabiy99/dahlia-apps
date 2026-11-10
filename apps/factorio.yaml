@@ -1,0 +1,15 @@
+schema: 2
+id: factorio
+name: Factorio Server
+category: other
+description:
+  de: "Dedizierter Server für Factorio."
+  en: "Dedicated Factorio server."
+services:
+  app:
+    image: factoriotools/factorio:2.1.24
+    lan_ports:
+      - {container: 34197, host: 34197, protocol: udp}
+      - {container: 27015, host: 27015, protocol: tcp}
+    volumes:
+      - {container: /factorio, appdata: data}

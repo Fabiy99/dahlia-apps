@@ -1,0 +1,22 @@
+schema: 2
+id: papra
+name: Papra
+category: productivity
+description:
+  de: "Schlichtes Dokumentenarchiv mit Suche und Tags."
+  en: "Simple document archive with search and tags."
+website: https://papra.app/
+notes:
+  de: "Über https://papra.<Domain> aufrufen, damit Links und Anmeldung stimmen."
+  en: "Open it at https://papra.<domain> so links and login work."
+web: {port: 1221, public_port: 8322}
+services:
+  app:
+    image: ghcr.io/papra-hq/papra:26.7.1-rootless
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /app/app-data, appdata: data}
+    environment:
+      AUTH_SECRET: "{SECRET_AUTH}"
+      APP_BASE_URL: "https://papra.{DOMAIN}"
+      TZ: "{TZ}"

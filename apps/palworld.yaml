@@ -1,0 +1,25 @@
+schema: 2
+id: palworld
+name: Palworld Server
+category: other
+description:
+  de: "Dedizierter Server für Palworld."
+  en: "Dedicated Palworld server."
+login: {password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: thijsvanloef/palworld-server-docker:v2.8.1
+    lan_ports:
+      - {container: 8211, host: 8211, protocol: udp}
+      - {container: 27015, host: 27016, protocol: udp}
+    volumes:
+      - {container: /palworld, appdata: data}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      PLAYERS: "16"
+      MULTITHREADING: "true"
+      COMMUNITY: "false"
+      ADMIN_PASSWORD: "{SECRET_ADMIN}"
+      SERVER_NAME: "Dahlia"

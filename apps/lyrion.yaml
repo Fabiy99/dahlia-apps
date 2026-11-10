@@ -1,0 +1,24 @@
+schema: 2
+id: lyrion
+name: Lyrion Music Server
+category: media
+description:
+  de: "Musikserver für Squeezebox-Player und kompatible Geräte."
+  en: "Music server for Squeezebox players and compatible devices."
+website: https://lyrion.org/
+web: {port: 9000, public_port: 9000}
+services:
+  app:
+    image: lmscommunity/lyrionmusicserver:9.2.0
+    lan_ports:
+      - {container: 3483, host: 3483, protocol: tcp}
+      - {container: 3483, host: 3483, protocol: udp}
+    volumes:
+      - {container: /config, appdata: config}
+      - {container: /music, share: music, readonly: true}
+      - {container: /playlist, appdata: playlists}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      HTTP_PORT: "9000"

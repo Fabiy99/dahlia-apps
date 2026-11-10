@@ -7,6 +7,8 @@
     "actualbudget/actual-server": "major",
     "ghcr.io/linuxserver/bookstack": "major",
     "jlesage/handbrake": "major",
-    "jlesage/jdownloader-2": "major"
+    "jlesage/jdownloader-2": "major",
+    "jasongdove/ersatztv": "major",
+    "b4bz/homer": "major"
   }
 }

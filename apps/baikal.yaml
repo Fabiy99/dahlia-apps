@@ -1,0 +1,18 @@
+schema: 2
+id: baikal
+name: Baïkal
+category: cloud
+description:
+  de: "CalDAV- und CardDAV-Server für Kalender und Kontakte."
+  en: "CalDAV and CardDAV server for calendars and contacts."
+website: https://sabre.io/baikal/
+notes:
+  de: "Der erste Aufruf führt durch die Einrichtung."
+  en: "The first visit runs the setup."
+web: {port: 80, public_port: 8336}
+services:
+  app:
+    image: ckulka/baikal:0.10.1-nginx
+    volumes:
+      - {container: /var/www/baikal/config, appdata: config}
+      - {container: /var/www/baikal/Specific, appdata: data}

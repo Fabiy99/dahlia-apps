@@ -1,0 +1,32 @@
+schema: 2
+id: etherpad
+name: Etherpad
+category: productivity
+description:
+  de: "Gemeinsam in Echtzeit an Texten schreiben."
+  en: "Write documents together in real time."
+website: https://etherpad.org/
+web: {port: 9001, public_port: 8320}
+login: {user: "admin", password: "{SECRET_ADMIN}"}
+services:
+  app:
+    image: etherpad/etherpad:3.3.16
+    depends_on: [db]
+    environment:
+      DB_TYPE: "postgres"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_NAME: "etherpad"
+      DB_USER: "etherpad"
+      DB_PASS: "{SECRET_DB}"
+      ADMIN_PASSWORD: "{SECRET_ADMIN}"
+      TRUST_PROXY: "true"
+      TZ: "{TZ}"
+  db:
+    image: postgres:17.11-alpine
+    volumes:
+      - {container: /var/lib/postgresql/data, appdata: db}
+    environment:
+      POSTGRES_DB: "etherpad"
+      POSTGRES_USER: "etherpad"
+      POSTGRES_PASSWORD: "{SECRET_DB}"

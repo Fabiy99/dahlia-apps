@@ -1,0 +1,20 @@
+schema: 2
+id: convertx
+name: ConvertX
+category: tools
+description:
+  de: "Wandelt Dateien zwischen über 1000 Formaten um."
+  en: "Converts files between more than 1000 formats."
+notes:
+  de: "Der erste Aufruf legt das Konto an."
+  en: "The first visit creates the account."
+web: {port: 3000, public_port: 8329}
+services:
+  app:
+    image: ghcr.io/c4illin/convertx:v0.20.0
+    volumes:
+      - {container: /app/data, appdata: data}
+    environment:
+      JWT_SECRET: "{SECRET_JWT}"
+      HTTP_ALLOWED: "true"
+      TZ: "{TZ}"

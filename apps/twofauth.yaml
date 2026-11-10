@@ -1,0 +1,22 @@
+schema: 2
+id: twofauth
+name: 2FAuth
+category: security
+description:
+  de: "Zwei-Faktor-Codes (TOTP) im Browser verwalten."
+  en: "Manage two-factor codes (TOTP) in the browser."
+website: https://docs.2fauth.app/
+notes:
+  de: "Über https://twofauth.<Domain> aufrufen, damit Links und Anmeldung stimmen."
+  en: "Open it at https://twofauth.<domain> so links and login work."
+web: {port: 8000, public_port: 8344}
+services:
+  app:
+    image: 2fauth/2fauth:9.0.1
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /2fauth, appdata: data}
+    environment:
+      APP_KEY: "{SECRET_APPKEY}"
+      APP_URL: "https://twofauth.{DOMAIN}"
+      TZ: "{TZ}"

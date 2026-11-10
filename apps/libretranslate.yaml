@@ -1,0 +1,19 @@
+schema: 2
+id: libretranslate
+name: LibreTranslate
+category: tools
+description:
+  de: "Übersetzer mit eigener API, ohne Cloud."
+  en: "Translator with its own API, without a cloud."
+notes:
+  de: "Beim ersten Start werden die Sprachmodelle geladen, das dauert einige Minuten."
+  en: "The language models are downloaded on first start, this takes a few minutes."
+web: {port: 5000, public_port: 8327}
+services:
+  app:
+    image: libretranslate/libretranslate:v1.9.6
+    user: "{PUID}:{PGID}"
+    volumes:
+      - {container: /home/libretranslate/.local, appdata: models}
+    environment:
+      LT_LOAD_ONLY: "en,de,fr,es,it"

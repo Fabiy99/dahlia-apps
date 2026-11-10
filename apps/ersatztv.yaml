@@ -1,0 +1,17 @@
+schema: 2
+id: ersatztv
+name: ErsatzTV
+category: media
+description:
+  de: "Eigene Fernsehsender aus der Mediathek, als IPTV für Jellyfin oder Plex."
+  en: "Your own TV channels from the media library, as IPTV for Jellyfin or Plex."
+website: https://ersatztv.org/
+web: {port: 8409, public_port: 8308}
+services:
+  app:
+    image: jasongdove/ersatztv:v26.3.0
+    volumes:
+      - {container: /root/.local/share/ersatztv, appdata: config}
+      - {container: /media, share: media, readonly: true}
+    environment:
+      TZ: "{TZ}"

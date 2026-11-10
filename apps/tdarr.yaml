@@ -1,0 +1,28 @@
+schema: 2
+id: tdarr
+name: Tdarr
+category: media
+description:
+  de: "Wandelt die Mediathek automatisch in andere Formate um (FFmpeg/HandBrake)."
+  en: "Transcodes the media library automatically (FFmpeg/HandBrake)."
+website: https://tdarr.io/
+web: {port: 8265, public_port: 8305}
+services:
+  app:
+    image: ghcr.io/haveagitgat/tdarr:3.07.00
+    volumes:
+      - {container: /app/server, appdata: server}
+      - {container: /app/configs, appdata: configs}
+      - {container: /app/logs, appdata: logs}
+      - {container: /temp, appdata: cache}
+      - {container: /media, share: media}
+    environment:
+      PUID: "{PUID}"
+      PGID: "{PGID}"
+      TZ: "{TZ}"
+      serverIP: "0.0.0.0"
+      serverPort: "8266"
+      webUIPort: "8265"
+      internalNode: "true"
+      inContainer: "true"
+      nodeName: "dahlia"
