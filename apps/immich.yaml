@@ -1,4 +1,4 @@
-schema: 2
+schema: 3
 id: immich
 name: Immich
 category: photos
@@ -13,6 +13,7 @@ web: {port: 2283, public_port: 2283}
 services:
   app:
     image: ghcr.io/immich-app/immich-server:v2.7.5
+    gpu: true
     depends_on: [db, redis, ml]
     volumes:
       - {container: /data, share: photos}

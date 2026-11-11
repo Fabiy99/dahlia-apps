@@ -1,4 +1,4 @@
-schema: 2
+schema: 3
 id: photoprism
 name: PhotoPrism
 category: photos
@@ -11,6 +11,7 @@ login: {user: "admin", password: "{SECRET_ADMIN}"}
 services:
   app:
     image: photoprism/photoprism:261029
+    gpu: true
     depends_on: [db]
     volumes:
       - {container: /photoprism/originals, share: photos}

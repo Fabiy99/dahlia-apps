@@ -3,7 +3,7 @@
 (dahlia_agent.apps from dahlia-linux), the catalog's own rules, and that
 catalog.json matches apps/.
 
-Catalog rules on top of the parser: schema 2, German and English texts,
+Catalog rules on top of the parser: schema 2 (3 only with gpu), German and English texts,
 pinned tags (major.minor or a date), web and LAN ports unique across the
 catalog, every image in block style ("image: ..." on its own line, which
 tools/bump.py relies on). Icons in icons/ belong to an app and pass
@@ -44,8 +44,9 @@ def main() -> int:
             errors.append(f"apps/{f.name}: {e}")
             continue
         where = f"apps/{f.name}"
-        if t.schema != 2:
-            errors.append(f"{where}: use schema 2")
+        # Schema 3 only where needed: older Dahlia versions skip those templates.
+        if t.schema != (3 if t.gpu else 2):
+            errors.append(f"{where}: use schema {3 if t.gpu else 2}")
         for key in ("description", "notes"):
             texts = getattr(t, key)
             if key == "description" or texts:

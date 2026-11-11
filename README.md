@@ -50,6 +50,7 @@ services:
       PAPERLESS_DBPASS: "{SECRET_DB}"
     user: "{PUID}:{PGID}"            # optional
     command: [--flag]                # optional
+    gpu: true                        # optional, nur mit schema: 3 / only with schema: 3
   db:
     image: postgres:17.6-alpine
     environment: {POSTGRES_PASSWORD: "{SECRET_DB}"}
@@ -64,6 +65,10 @@ Platzhalter: `{TZ}`, `{PUID}`, `{PGID}`, `{HOSTNAME}`, `{DOMAIN}`, `{SECRET_<NAM
 `privileged`, Host-Netzwerk, Geräte, Capabilities und beliebige Host-Pfade lehnt Dahlia ab.
 Deshalb fehlen Apps, die das brauchen (WireGuard, Tailscale, Frigate, Plex mit
 Host-Netzwerk, Zigbee-Sticks, alles mit Docker-Socket).
+
+`gpu: true` (ab Dahlia 0.8, nur mit `schema: 3`) gibt dem Dienst `/dev/dri` für
+Hardware-Transcoding, wenn der Server eine Intel- oder AMD-GPU hat. Nur Apps, die es
+nutzen, bekommen `schema: 3`; ältere Dahlia-Versionen überspringen diese Vorlagen.
 
 Regeln der Prüfung: Version mit mindestens `major.minor` oder Datum; Web- und LAN-Ports
 im ganzen Katalog eindeutig; reserviert sind 22, 80, 443, 5353, 8080 und 41000-41999
@@ -115,6 +120,10 @@ See the example above. Placeholders: `{TZ}`, `{PUID}`, `{PGID}`, `{HOSTNAME}`, `
 fields; Dahlia rejects `privileged`, host networking, devices, capabilities and arbitrary
 host paths, so apps that need those (WireGuard, Tailscale, Frigate, Plex with host
 networking, Zigbee sticks, anything with the Docker socket) are not in the catalog.
+
+`gpu: true` (Dahlia 0.8 and later, only with `schema: 3`) gives the service `/dev/dri` for
+hardware transcoding when the server has an Intel or AMD GPU. Only apps that use it get
+`schema: 3`; older Dahlia versions skip those templates.
 
 Check rules: version with at least `major.minor` or a date; web and LAN ports unique
 across the catalog; 22, 80, 443, 5353, 8080 and 41000-41999 are reserved (53 only as a LAN
