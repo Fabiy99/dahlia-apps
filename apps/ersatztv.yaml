@@ -1,4 +1,4 @@
-schema: 2
+schema: 3
 id: ersatztv
 name: ErsatzTV
 category: media
@@ -10,6 +10,7 @@ web: {port: 8409, public_port: 8308}
 services:
   app:
     image: jasongdove/ersatztv:v26.3.0
+    gpu: true
     volumes:
       - {container: /root/.local/share/ersatztv, appdata: config}
       - {container: /media, share: media, readonly: true}

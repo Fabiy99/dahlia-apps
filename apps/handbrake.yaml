@@ -1,4 +1,4 @@
-schema: 2
+schema: 3
 id: handbrake
 name: HandBrake
 category: media
@@ -9,6 +9,7 @@ web: {port: 5800, public_port: 5800}
 services:
   app:
     image: jlesage/handbrake:v26.09.1
+    gpu: true
     volumes:
       - {container: /config, appdata: config}
       - {container: /storage, share: media, readonly: true}

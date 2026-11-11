@@ -1,4 +1,4 @@
-schema: 2
+schema: 3
 id: jellyfin
 name: Jellyfin
 category: media
@@ -10,6 +10,7 @@ web: {port: 8096, public_port: 8096}
 services:
   app:
     image: jellyfin/jellyfin:10.11.11
+    gpu: true
     volumes:
       - {container: /config, appdata: config}
       - {container: /cache, appdata: cache}

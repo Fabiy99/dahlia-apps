@@ -1,4 +1,4 @@
-schema: 2
+schema: 3
 id: tdarr
 name: Tdarr
 category: media
@@ -10,6 +10,7 @@ web: {port: 8265, public_port: 8305}
 services:
   app:
     image: ghcr.io/haveagitgat/tdarr:3.07.00
+    gpu: true
     volumes:
       - {container: /app/server, appdata: server}
       - {container: /app/configs, appdata: configs}
