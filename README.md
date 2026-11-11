@@ -17,6 +17,8 @@ Ist die Vorlage einer installierten App neuer, zeigt das Dashboard "Update auf X
 | `apps/<id>.yaml` | eine App-Vorlage (Schema 2) |
 | `catalog.json` | alle Vorlagen in einer Datei, erzeugt von `tools/build.py` |
 | `tools/check.py` | Prüfung, läuft in der CI bei jedem PR |
+| `icons/<id>.svg` oder `.png` | Logo der App für den App-Store, höchstens 64 KB |
+| `tools/app_icons.py` | lädt fehlende Logos, `tools/icons.json` ordnet abweichende Namen zu |
 | `tools/bump.py` | sucht neue Image-Versionen, `tools/bump.json` legt die Regeln fest |
 | `.github/workflows/bump.yml` | täglich: neue Versionen als Pull Request `bump/images` |
 
@@ -81,9 +83,11 @@ prüft den Katalog vor dem PR selbst.
 ### Neue App
 
 1. `apps/<id>.yaml` anlegen.
-2. `python3 tools/build.py`
-3. Prüfen: `python3 tools/check.py --linux ../dahlia-linux --images`
-4. Pull Request.
+2. Logo: `python3 tools/app_icons.py --fetch <id>` (braucht Pillow). Ohne Logo zeigt Dahlia
+   den Anfangsbuchstaben.
+3. `python3 tools/build.py`
+4. Prüfen: `python3 tools/check.py --linux ../dahlia-linux --images`
+5. Pull Request.
 
 ## English
 
@@ -99,6 +103,8 @@ installed app's template is newer, the dashboard shows "Update to X".
 | `apps/<id>.yaml` | one app template (schema 2) |
 | `catalog.json` | all templates in one file, written by `tools/build.py` |
 | `tools/check.py` | checks, run by CI on every PR |
+| `icons/<id>.svg` or `.png` | the app's logo for the app store, at most 64 KB |
+| `tools/app_icons.py` | downloads missing logos, `tools/icons.json` maps differing names |
 | `tools/bump.py` | looks for new image versions, rules in `tools/bump.json` |
 | `.github/workflows/bump.yml` | daily: new versions as pull request `bump/images` |
 
@@ -128,10 +134,19 @@ catalog itself before opening the PR.
 ### New app
 
 1. Add `apps/<id>.yaml`.
-2. `python3 tools/build.py`
-3. Check: `python3 tools/check.py --linux ../dahlia-linux --images`
-4. Open a pull request.
+2. Logo: `python3 tools/app_icons.py --fetch <id>` (needs Pillow). Without a logo Dahlia
+   shows the first letter.
+3. `python3 tools/build.py`
+4. Check: `python3 tools/check.py --linux ../dahlia-linux --images`
+5. Open a pull request.
 
 ## Lizenz / License
 
 GPLv3, see [LICENSE](LICENSE).
+
+Die Logos in `icons/` stammen aus
+[homarr-labs/dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0).
+Produktnamen und Logos gehören ihren Inhabern und dienen nur dazu, die App zu erkennen.
+
+The logos in `icons/` come from homarr-labs/dashboard-icons (Apache-2.0). Product names and
+logos belong to their owners and only identify the app.

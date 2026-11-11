@@ -6,7 +6,8 @@ catalog.json matches apps/.
 Catalog rules on top of the parser: schema 2, German and English texts,
 pinned tags (major.minor or a date), web and LAN ports unique across the
 catalog, every image in block style ("image: ..." on its own line, which
-tools/bump.py relies on).
+tools/bump.py relies on). Icons in icons/ belong to an app and pass
+app_icons.check().
 
 Usage: tools/check.py --linux <path to a dahlia-linux checkout> [--images]
 --images also checks in the registries that each image exists.
@@ -16,6 +17,7 @@ import argparse
 import sys
 from pathlib import Path
 
+import app_icons
 import build
 import registry
 import versions
@@ -69,6 +71,15 @@ def main() -> int:
             if other and other != t.id:
                 errors.append(f"port {port}/{key[1]} is used by {other} and {t.id}")
             ports[key] = t.id
+
+    ids = {t.id for t in templates}
+    for f in sorted(app_icons.ICONS.iterdir()) if app_icons.ICONS.is_dir() else []:
+        if f.stem not in ids:
+            errors.append(f"icons/{f.name}: no app with this id")
+        elif f.suffix == ".png" and (app_icons.ICONS / f"{f.stem}.svg").exists():
+            errors.append(f"icons/{f.name}: there is an SVG too, keep one")
+        elif problem := app_icons.check(f):
+            errors.append(f"icons/{f.name}: {problem}")
 
     if (ROOT / "catalog.json").read_text(encoding="utf-8") != build.bundle():
         errors.append("catalog.json is out of date, run tools/build.py")

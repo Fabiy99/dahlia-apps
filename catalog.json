@@ -150,5 +150,599 @@
   "wordpress": "schema: 2\nid: wordpress\nname: WordPress\ncategory: productivity\ndescription:\n  de: \"Website und Blog mit Themes und Plugins.\"\n  en: \"Website and blog with themes and plugins.\"\nwebsite: https://wordpress.org/\nnotes:\n  de: \"Die Adresse beim ersten Aufruf wird die Website-Adresse; am besten https://wordpress.<Domain>.\"\n  en: \"The address used on the first visit becomes the site address; best use https://wordpress.<domain>.\"\nweb: {port: 80, public_port: 8325}\nservices:\n  app:\n    image: wordpress:6.9.4-php8.3-apache\n    depends_on: [db]\n    volumes:\n      - {container: /var/www/html, appdata: html}\n    environment:\n      WORDPRESS_DB_HOST: \"db\"\n      WORDPRESS_DB_USER: \"wordpress\"\n      WORDPRESS_DB_PASSWORD: \"{SECRET_DB}\"\n      WORDPRESS_DB_NAME: \"wordpress\"\n  db:\n    image: mariadb:11.8.9\n    volumes:\n      - {container: /var/lib/mysql, appdata: db}\n    environment:\n      MARIADB_DATABASE: \"wordpress\"\n      MARIADB_USER: \"wordpress\"\n      MARIADB_PASSWORD: \"{SECRET_DB}\"\n      MARIADB_ROOT_PASSWORD: \"{SECRET_DBROOT}\"\n      MARIADB_AUTO_UPGRADE: \"1\"\n    command: [\"--innodb-use-native-aio=0\", \"--innodb-flush-method=fsync\"]\n",
   "zipline": "schema: 2\nid: zipline\nname: Zipline\ncategory: tools\ndescription:\n  de: \"Dateien, Screenshots und Kurzlinks teilen (ShareX-kompatibel).\"\n  en: \"Share files, screenshots and short links (ShareX compatible).\"\nwebsite: https://zipline.diced.sh/\nnotes:\n  de: \"Der erste Aufruf legt das Admin-Konto an.\"\n  en: \"The first visit creates the admin account.\"\nweb: {port: 3000, public_port: 8330}\nservices:\n  app:\n    image: ghcr.io/diced/zipline:4.8.3\n    depends_on: [db]\n    volumes:\n      - {container: /zipline/uploads, appdata: uploads}\n      - {container: /zipline/public, appdata: public}\n    environment:\n      DATABASE_URL: \"postgres://zipline:{SECRET_DB}@db:5432/zipline\"\n      CORE_SECRET: \"{SECRET_CORE}\"\n      CORE_HOSTNAME: \"0.0.0.0\"\n      CORE_PORT: \"3000\"\n  db:\n    image: postgres:17.11-alpine\n    volumes:\n      - {container: /var/lib/postgresql/data, appdata: db}\n    environment:\n      POSTGRES_DB: \"zipline\"\n      POSTGRES_USER: \"zipline\"\n      POSTGRES_PASSWORD: \"{SECRET_DB}\"\n"
  },
- "format": 1
+ "format": 1,
+ "icons": {
+  "actual": {
+   "file": "icons/actual.svg",
+   "sha256": "6ec6621a8d0b69f622ff10d7f957a229f959d94d4bc8c5e3586aebe71c922407"
+  },
+  "adguard": {
+   "file": "icons/adguard.svg",
+   "sha256": "4a65b23ae16bf700f35139e2c10a5f731a32530f2db832abd5612be2523b1f9f"
+  },
+  "adminer": {
+   "file": "icons/adminer.svg",
+   "sha256": "90a1936349b8297d820d5b62559fe3817304b43ed8ac70c31945adc8c2888fa2"
+  },
+  "apprise": {
+   "file": "icons/apprise.png",
+   "sha256": "fce5b44928955d48ad672db118ab72bca98c11dbeaf31dd9efac20cf8ef858b2"
+  },
+  "archivebox": {
+   "file": "icons/archivebox.png",
+   "sha256": "7252fb33a284200c3f607a04a6fb846ace09d5ccd128fb64ca68858fed14e83a"
+  },
+  "audiobookshelf": {
+   "file": "icons/audiobookshelf.svg",
+   "sha256": "48a539c267b88e3898f8e127dacef04e6625a5e99f8d334c392a8aa65668a8e8"
+  },
+  "autobrr": {
+   "file": "icons/autobrr.svg",
+   "sha256": "99d03561d1610161a29605886725f480e7703e52d5ab208a22f9617b83e92c41"
+  },
+  "backrest": {
+   "file": "icons/backrest.svg",
+   "sha256": "6196d700ab817ae72e47b5806bfce1451a27cb9654d9a5197aff465eb56c408e"
+  },
+  "baikal": {
+   "file": "icons/baikal.svg",
+   "sha256": "de86c406a1b68afe0efd11748d2ddc465e221ef7878065786b6fadb3724fc3f0"
+  },
+  "bazarr": {
+   "file": "icons/bazarr.svg",
+   "sha256": "b42777ee622ddf85ace15dbe9a70d471a2ca364e745c73ea467da3a0a7586162"
+  },
+  "beszel": {
+   "file": "icons/beszel.svg",
+   "sha256": "ee02dbbb1471cca0f4cce67502307f7c8e6ae4dd55ae1b247382cf1c978c1036"
+  },
+  "bookstack": {
+   "file": "icons/bookstack.svg",
+   "sha256": "875148604f2e828e977c23a9afa04869dd958dd6300650ec3350eff9c242cd64"
+  },
+  "calibre": {
+   "file": "icons/calibre.svg",
+   "sha256": "67c209898cf4e1f6ec8e91bd2d1a3f5cf5027841e34efadfc3897ab2eb8eabf8"
+  },
+  "calibre-web": {
+   "file": "icons/calibre-web.svg",
+   "sha256": "55efda1bd6ea1d326444ce78f66abe29ef73ec0029ebcc669ec9277afc9abe6c"
+  },
+  "changedetection": {
+   "file": "icons/changedetection.svg",
+   "sha256": "dcf826ff17a505c00fe8c256a5781679c8b22b761d6ecc85ae8fc244adf77561"
+  },
+  "code-server": {
+   "file": "icons/code-server.png",
+   "sha256": "34b228207d3a27cc8d0d34ff88d2369790d9ed68263d8d816019ce930717b955"
+  },
+  "commafeed": {
+   "file": "icons/commafeed.svg",
+   "sha256": "005c35ff373e79118516eae0cca03e57a0f4cc3d877ebf553bafb11bfbe30cc8"
+  },
+  "convertx": {
+   "file": "icons/convertx.png",
+   "sha256": "d04cb8668a84cb16e58da025e6c242342bf6cf15aa2a3e87c60b9d0a2614b586"
+  },
+  "cyberchef": {
+   "file": "icons/cyberchef.svg",
+   "sha256": "da06efa560ad89168d676df525f63d66ceee64dfbdfacbd59ee1d8c55026896e"
+  },
+  "dashy": {
+   "file": "icons/dashy.png",
+   "sha256": "71326271ea0396f9d8fce94c87d2da159787d1eab8a77309b5d56494f55dd516"
+  },
+  "ddns-updater": {
+   "file": "icons/ddns-updater.svg",
+   "sha256": "e93957a3e44d4e288ee7d62afb4c6e52027ef54b4d45ecda285b7ea04ad00953"
+  },
+  "deluge": {
+   "file": "icons/deluge.svg",
+   "sha256": "085a9f9b428c05b723e4efe8f5e17ca427ba8f9e51d6805c604c03fa5bce418a"
+  },
+  "docmost": {
+   "file": "icons/docmost.png",
+   "sha256": "dd707cbcc00b26e5476fec3c5b3426d95edd847c097dfe8d091c940a8b12bf9f"
+  },
+  "dokuwiki": {
+   "file": "icons/dokuwiki.svg",
+   "sha256": "edc73fd0decdbf497b0d4d57120c18655e3634761d17e61531bdab33db5d9f89"
+  },
+  "drawio": {
+   "file": "icons/drawio.svg",
+   "sha256": "ab7e219b66036aa5e065c300dd87ebf2d5e0f18801906055aee326a1fcddf880"
+  },
+  "duplicati": {
+   "file": "icons/duplicati.svg",
+   "sha256": "27c3aeec6cbdbd755ea6c854bfb3a3aa9d9a490df5fcd84365fc134e63cd23d2"
+  },
+  "emby": {
+   "file": "icons/emby.svg",
+   "sha256": "9f449dcbb77831d962953203e699b69cb5a5636c9803b2e8e1437f6224740a19"
+  },
+  "ersatztv": {
+   "file": "icons/ersatztv.svg",
+   "sha256": "bb006633f68061d47bf163b78c440ea83a3f8f0091e263a52380fca37fa29e7e"
+  },
+  "esphome": {
+   "file": "icons/esphome.svg",
+   "sha256": "fc791365bbfae45a3f156c947f42e58705684cfadf73cffbcdc2c2494181c8b0"
+  },
+  "etherpad": {
+   "file": "icons/etherpad.svg",
+   "sha256": "a1febc26821bc698d6546d8662e6cbf7b2abd3a5f10f6d2a19b51a48e5f86926"
+  },
+  "ezbookkeeping": {
+   "file": "icons/ezbookkeeping.png",
+   "sha256": "be80ce0bac010b2114dcf0a61d4b5f8370f286c101b3bce95016e63a5fd620dc"
+  },
+  "factorio": {
+   "file": "icons/factorio.png",
+   "sha256": "43b691b7b0038f2dbf9701ebd7542fb51b41977538ca08d9444ba5684dd9d57a"
+  },
+  "filebrowser": {
+   "file": "icons/filebrowser.svg",
+   "sha256": "9d945ef0e894fe8e907c23ade4d2912ec3c8b738fc4c0f53c3f6a9126715493e"
+  },
+  "firefly": {
+   "file": "icons/firefly.svg",
+   "sha256": "a33e8d30d625552152a529aeeb8a772ba2aa8b56d0116139ec5d32c5f3e40b57"
+  },
+  "flame": {
+   "file": "icons/flame.png",
+   "sha256": "ee8fd8b9c3b79511c0556115e41b643a6f261bf1d89004371dbbfb80f918e592"
+  },
+  "flaresolverr": {
+   "file": "icons/flaresolverr.svg",
+   "sha256": "c12ad8598f4faa9268557b51970b2c42c39461b8178ae88faef3a08088e44dbb"
+  },
+  "freshrss": {
+   "file": "icons/freshrss.svg",
+   "sha256": "c9fed1ab6f9e271538e041ff3f70117bf01cec9c162239534fb6a7b6bfa1c2b5"
+  },
+  "ghostfolio": {
+   "file": "icons/ghostfolio.svg",
+   "sha256": "9d48139ef4232c0e779d1f666214ba1fb298afc9c64814af05e7b5ba6a133175"
+  },
+  "gitea": {
+   "file": "icons/gitea.svg",
+   "sha256": "6e2da0b8fbd4e0eec778714f5009361eb0a339967e06d265f3d7d0d50418d7c7"
+  },
+  "gotify": {
+   "file": "icons/gotify.png",
+   "sha256": "dc683aadc46269275428560076a732f4eebf4c944f51254d4ec904ce13531163"
+  },
+  "grafana": {
+   "file": "icons/grafana.svg",
+   "sha256": "8f32897073ee93594ab2339482ef21ca3767044055da89e2baf9066d25592df7"
+  },
+  "grocy": {
+   "file": "icons/grocy.svg",
+   "sha256": "484933626c768b157b1656fd90c216002369354deb15bb7d05e5fef0053728af"
+  },
+  "handbrake": {
+   "file": "icons/handbrake.svg",
+   "sha256": "018f7ac7b8e3210bd0888a93160c91f025a3b32b8e6099b9ff294dc0a196a91e"
+  },
+  "healthchecks": {
+   "file": "icons/healthchecks.svg",
+   "sha256": "13e556c7ad822a8e3fca8b30a204fed67e56ffd55abd5e7afb0b029359b148c0"
+  },
+  "heimdall": {
+   "file": "icons/heimdall.svg",
+   "sha256": "974246312a30a53beb27f207da4b32f0086b75e5011458270857e443de6e3f05"
+  },
+  "homarr": {
+   "file": "icons/homarr.svg",
+   "sha256": "8de597a0eb1cf186a0bc2f274ea4f15055bd25dadceabb81e0ab1b08cfabc73a"
+  },
+  "home-assistant": {
+   "file": "icons/home-assistant.svg",
+   "sha256": "146b366b8c09502742025c4bca4e029e8e4a1b277db837d59a23b93940ebe0e0"
+  },
+  "homebox": {
+   "file": "icons/homebox.svg",
+   "sha256": "3c4e5f65563dd6c8d516addae616074aa947c34aad3b9e5051befa96e6b06291"
+  },
+  "homepage": {
+   "file": "icons/homepage.png",
+   "sha256": "e8e95030114db3e28af8a533a8bcb52917729352017f703132603b474932bdc5"
+  },
+  "homer": {
+   "file": "icons/homer.svg",
+   "sha256": "7dd00f25f31490a5eb9145df2ff92be8390a981c01541d26bb6693848205d215"
+  },
+  "immich": {
+   "file": "icons/immich.svg",
+   "sha256": "a5d4a43899e63ffc7e97246034f7f63cdfdc410aa803c5713d545290601c4d89"
+  },
+  "influxdb": {
+   "file": "icons/influxdb.svg",
+   "sha256": "22489cee4b8d9289dc86865f8394d8479f18c97ea5c3956cf52ab274ec3eca5f"
+  },
+  "it-tools": {
+   "file": "icons/it-tools.svg",
+   "sha256": "f29068eb90c8f43d68517e98259cd1a0a63eab74bbeb92ad47d62ba47dd81930"
+  },
+  "jackett": {
+   "file": "icons/jackett.svg",
+   "sha256": "b4309c99a98151458d3a83af89770904bac693e1950ba5c4bff438e557c08eb8"
+  },
+  "jdownloader": {
+   "file": "icons/jdownloader.png",
+   "sha256": "74bab6c15744262a472777f72da33f3e8417905dbd9da5c6a5619bdc4158a5e6"
+  },
+  "jellyfin": {
+   "file": "icons/jellyfin.svg",
+   "sha256": "7f53cf083dbb3119ec8c5acbd8049c5033227617e461540f70591ac109124306"
+  },
+  "jellyseerr": {
+   "file": "icons/jellyseerr.svg",
+   "sha256": "536b303e73d5e67d52af58583357acd80cc65050d5114ad2fbf5f38414ee1c3a"
+  },
+  "jellystat": {
+   "file": "icons/jellystat.png",
+   "sha256": "f6b991487ecd902cd2561718874641d64ed8997e77e4e977582efa7b995fbb2f"
+  },
+  "jenkins": {
+   "file": "icons/jenkins.svg",
+   "sha256": "2353e89d742e759fb2ad8459195d2ca12633241802e452637366ba6aa68fb651"
+  },
+  "joplin": {
+   "file": "icons/joplin.svg",
+   "sha256": "9e6ba425b6f1899222001efa82c37afe0bcf8896879abeec7ac50292e8e7b6aa"
+  },
+  "kanboard": {
+   "file": "icons/kanboard.svg",
+   "sha256": "6bc43cb5cd641dd4bc0cde3d9301368a2d4713ef0719abc73b5c28b504a1f12d"
+  },
+  "kavita": {
+   "file": "icons/kavita.svg",
+   "sha256": "f03ab7420b8b36ad6b43e88723f794d76c411f728fb020fbeee470f6e1e7696b"
+  },
+  "kimai": {
+   "file": "icons/kimai.svg",
+   "sha256": "938e27e2aef4696f70ac5d602ffc72ee18e08b1d35fefbb961eb1fdb15e102a2"
+  },
+  "komga": {
+   "file": "icons/komga.svg",
+   "sha256": "3db326796a5b019a7b65e8682588d039726fd0e820896565cc8af6dc1a0c9242"
+  },
+  "kopia": {
+   "file": "icons/kopia.svg",
+   "sha256": "7dde248b774b970a6ebfbfccfbd5ae05a79124a08a941a41582f05197a936b9d"
+  },
+  "leantime": {
+   "file": "icons/leantime.svg",
+   "sha256": "fee7395e59a39c9b0391a0d68cf6a815c0a7353dd09f3853d49a6034d887922b"
+  },
+  "librespeed": {
+   "file": "icons/librespeed.svg",
+   "sha256": "e8651f696894c5f10b0cfff0e369faf2d3934a89125a4a32c8b4bc83f01df327"
+  },
+  "libretranslate": {
+   "file": "icons/libretranslate.svg",
+   "sha256": "6b26795fb755ec545cc46a11162f89f2b1f98e07d405c84bde3122f8508e21a8"
+  },
+  "lidarr": {
+   "file": "icons/lidarr.svg",
+   "sha256": "2f55f69450a0ca03621e87550e81ec0f6798c4a578b54e4b988a9a7234a83647"
+  },
+  "linkding": {
+   "file": "icons/linkding.svg",
+   "sha256": "cdea23c8696a18ee6ff8899bcfb94f1c063ad8af48c3390ee3c840463d449792"
+  },
+  "linkwarden": {
+   "file": "icons/linkwarden.png",
+   "sha256": "2dfb640ec7d4d37834afdd7f62b3189012f131c0f66999ace89fb2f8b78f503a"
+  },
+  "lubelogger": {
+   "file": "icons/lubelogger.png",
+   "sha256": "d89649c4fe979285524dae9627cf64f93259e7b52b6b6af928877354a0b9ea9b"
+  },
+  "lyrion": {
+   "file": "icons/lyrion.svg",
+   "sha256": "2d289c96e5085a4e640993883c1a6d09500b4167d10a5b5ed52e9e94d0c297db"
+  },
+  "maintainerr": {
+   "file": "icons/maintainerr.png",
+   "sha256": "a6a2dfd145c2734d28d7e5799cac0be98c0f57e6b5c6c681d448cbe854b23e14"
+  },
+  "mattermost": {
+   "file": "icons/mattermost.svg",
+   "sha256": "44c729c1821ae15dac700c89af6dabcb8ccac91a5048a15f96d940c81b862548"
+  },
+  "mealie": {
+   "file": "icons/mealie.svg",
+   "sha256": "1c151eab85047a0d71f128606614419126af5c10e5ac09112cdc1033b61a833f"
+  },
+  "memos": {
+   "file": "icons/memos.png",
+   "sha256": "940bd87fd4a1f4b891a1484b71e32de4df0d2bfb93f94066fa1b8c2001da7245"
+  },
+  "metube": {
+   "file": "icons/metube.svg",
+   "sha256": "9f930cc07019c7592c8e69d50e16e27eb9147d96cf7ebcc94d4ecc271266891c"
+  },
+  "minecraft": {
+   "file": "icons/minecraft.png",
+   "sha256": "f6d6d87475f84a61f5114a792769ce5b97ed4f10e6da1ca23f24dd51cc3cd14a"
+  },
+  "miniflux": {
+   "file": "icons/miniflux.svg",
+   "sha256": "132032458a533a14451d8c3a108a2fc98305e804fc4ec721831be8677bd0a8b5"
+  },
+  "mosquitto": {
+   "file": "icons/mosquitto.svg",
+   "sha256": "f339cedd619dc2a39a8153cc687fd0272e219108a3b86456543553f6531ea0d5"
+  },
+  "mumble": {
+   "file": "icons/mumble.svg",
+   "sha256": "c37ca46503224fb2e2c418eed6214836890b939be1456e4fa0948e774acca65c"
+  },
+  "mylar3": {
+   "file": "icons/mylar3.png",
+   "sha256": "2bfed85661a30ac013121252c7062c7bc650d10f92671e9382d250f4fb8199c5"
+  },
+  "myspeed": {
+   "file": "icons/myspeed.svg",
+   "sha256": "ec65850749df589bb65e2f1c2bcad88179017471bf0178213133dd912ec8dcdb"
+  },
+  "n8n": {
+   "file": "icons/n8n.svg",
+   "sha256": "45b282108f60b12df6cba68e3fa633d56970eab4d2ac6b1eef43a60b5ea29af5"
+  },
+  "navidrome": {
+   "file": "icons/navidrome.svg",
+   "sha256": "cd8911581c1173c0696dadaeb02f9bb2eb1ff3b6bdf5c64c49b90f7cb70274cf"
+  },
+  "netbootxyz": {
+   "file": "icons/netbootxyz.svg",
+   "sha256": "142b273a0799c4f6615ba16cc9fbeea48381bfe8729de20f08b9b4accf4ce276"
+  },
+  "nextcloud": {
+   "file": "icons/nextcloud.svg",
+   "sha256": "892404c0c7c74cb22d6c728e967fcf5cb680f7d343db1cdfef92186d44cce6d3"
+  },
+  "nocodb": {
+   "file": "icons/nocodb.svg",
+   "sha256": "af5cdd2a8c36ce0afdd3f2954e34d4a95ab0657b6fbd0068e40afddaccaaeb4f"
+  },
+  "node-red": {
+   "file": "icons/node-red.svg",
+   "sha256": "6df09ee45c3a7c47cb249d9779b9d6dfa7372ed7b80b4d3d9cfcdcc27dd3ea96"
+  },
+  "ntfy": {
+   "file": "icons/ntfy.svg",
+   "sha256": "5e1155b02e8d819eb9024b1244dd636a773930918d88ac917602275fb9c42991"
+  },
+  "nzbget": {
+   "file": "icons/nzbget.svg",
+   "sha256": "c9ab9e58b870efba9d8da5d22d91149183af8094e0a4889a7e7f5384fe018983"
+  },
+  "ollama": {
+   "file": "icons/ollama.svg",
+   "sha256": "c2a14336a00c943cbbe1739d4a9d4146b0606c342fd6876defb6e35f918095bf"
+  },
+  "ombi": {
+   "file": "icons/ombi.svg",
+   "sha256": "0a4b7c4a3b08a01d2a5f9896bd9c8a8f8df6b8e395bf638f9727c2c3b9756331"
+  },
+  "onedev": {
+   "file": "icons/onedev.svg",
+   "sha256": "a7ff48310a879517789cc9bb68f014580b9865b6e9db5b2d1e1cc021dcc83554"
+  },
+  "onlyoffice": {
+   "file": "icons/onlyoffice.svg",
+   "sha256": "3c7e93dea26a992e3946424eb3ba0d7bc2acadf992141f37d0956c2e0877eb02"
+  },
+  "open-webui": {
+   "file": "icons/open-webui.svg",
+   "sha256": "54717f2b0d403a6a559c87622d23dfd3cff3538e910ea3dbd8ffbf015aa3ff89"
+  },
+  "overseerr": {
+   "file": "icons/overseerr.svg",
+   "sha256": "73238e3aba8dce63e4ef0fcf37c59759b25155cc36a9adc38e507f4e66bc22fb"
+  },
+  "owncast": {
+   "file": "icons/owncast.svg",
+   "sha256": "4efe920039541ad2fa19c74083f0de996d2b3647c13b8fea1617ebd3a88d3dad"
+  },
+  "pairdrop": {
+   "file": "icons/pairdrop.png",
+   "sha256": "6f48ab6061c0c79cefca71754bd3ee1188af0d27036ac999b99091d6248f9a1e"
+  },
+  "palworld": {
+   "file": "icons/palworld.png",
+   "sha256": "e95236a1e753fdddea469232ae8d527eacf6d78652ae86c2737a2fba5fa8cacc"
+  },
+  "paperless": {
+   "file": "icons/paperless.svg",
+   "sha256": "b9d0cb5ddad416f50f01f00b96f7db5f374ee9c9cbf1ad45201e2c7337fd3fe9"
+  },
+  "papra": {
+   "file": "icons/papra.svg",
+   "sha256": "6119be4fd41339c57161e9fe4f4db1ca457044325a2166b2c16a10050dcb61f1"
+  },
+  "photoprism": {
+   "file": "icons/photoprism.svg",
+   "sha256": "71a0103298dcef3ce8ca27c2d3375bd80804f7962efe74848205944bdcc5f001"
+  },
+  "phpmyadmin": {
+   "file": "icons/phpmyadmin.svg",
+   "sha256": "b9483b7506e13a4fd3e51f5ee807195718f358d036ed784b854fc8870cdc1a1d"
+  },
+  "pinchflat": {
+   "file": "icons/pinchflat.png",
+   "sha256": "a6464b00d7565deae23ac8eb70ec4a3759aa84b0e231576bc4bb50611fc14cb7"
+  },
+  "piwigo": {
+   "file": "icons/piwigo.svg",
+   "sha256": "2deef1ddd9099ab42ef4b2ebf131ff3a2e13b89b3859c9721b9f3002a249fa33"
+  },
+  "planka": {
+   "file": "icons/planka.svg",
+   "sha256": "32c64d077bf89224111196f7d55c07be0723c9420ef4ccaece9ebd9fff159834"
+  },
+  "privatebin": {
+   "file": "icons/privatebin.svg",
+   "sha256": "62784b99734ec548d14153040806df24ba395c5741d8a70e1666cefc12380deb"
+  },
+  "prometheus": {
+   "file": "icons/prometheus.svg",
+   "sha256": "b8718698ad8afa9ea526a6081f1077f61d974a66b067005469665cfaf88162a6"
+  },
+  "prowlarr": {
+   "file": "icons/prowlarr.svg",
+   "sha256": "cd7736bcef6550ad853e59d4d7205f96e9db8ae44be957ca5b7eae7046f5bc67"
+  },
+  "pyload-ng": {
+   "file": "icons/pyload-ng.svg",
+   "sha256": "c1a1d69d95ba0d1455048936942427803f41d657e3904f9a7628742cf54ec2f3"
+  },
+  "qbittorrent": {
+   "file": "icons/qbittorrent.svg",
+   "sha256": "dc6a5e20879ad37b6e9367ccc9143fdf90351f40eb08c200cd7d003ff1b1c275"
+  },
+  "radarr": {
+   "file": "icons/radarr.svg",
+   "sha256": "c3d07ecdfab432ca97f26cf01fe06dbfc0993b5cb6093827b3de1c7421a6fb95"
+  },
+  "rdtclient": {
+   "file": "icons/rdtclient.svg",
+   "sha256": "d4d5b8d2789c13ba7488f1794be4c10619dd698ce970bbfc2fb86f5b2111f434"
+  },
+  "registry": {
+   "file": "icons/registry.svg",
+   "sha256": "7de45e1ea203da32a040c257f47cd39a5711b3a200d27ec72dbccbc5efb1590b"
+  },
+  "romm": {
+   "file": "icons/romm.svg",
+   "sha256": "c4da6353cb16e6c5196bf8baab8d4f249626469fe34503d9361764c20b50b7f1"
+  },
+  "rustdesk": {
+   "file": "icons/rustdesk.svg",
+   "sha256": "f14e275f8b60adde7a026a54a44a4c5b79ff73ddbc21bcc7a338af04563029ce"
+  },
+  "sabnzbd": {
+   "file": "icons/sabnzbd.svg",
+   "sha256": "1253fd62e310f2c7c436002a7864b8135654a20d36b2177e3900542fcf8497b0"
+  },
+  "searxng": {
+   "file": "icons/searxng.svg",
+   "sha256": "e0f4c72fe58055043d04446350e7d3e6a25105e507519b1ceacffd5b9aa89593"
+  },
+  "shiori": {
+   "file": "icons/shiori.svg",
+   "sha256": "1c8aed9c89866a8ebf11c562e8dc70e178c7bb498ad4cc5719bac4bded317c1a"
+  },
+  "siyuan": {
+   "file": "icons/siyuan.svg",
+   "sha256": "9272bb4a8629b99cc3e9e2053c7d21fe11328c4198d7df60a21bb1a3e2a64389"
+  },
+  "slskd": {
+   "file": "icons/slskd.svg",
+   "sha256": "163133ab1baef9d6088d8a451bc7fd95ac03bdbb1d0ec2c3b089420cf3cd029a"
+  },
+  "smokeping": {
+   "file": "icons/smokeping.png",
+   "sha256": "14bd85e19191d0147f6c8998c4b33c2fbf169754f8ab50cd27c9146c58b1b817"
+  },
+  "snipe-it": {
+   "file": "icons/snipe-it.png",
+   "sha256": "91c601c599d29028ce13cffef6bc7a5874613f2bb0df153f31e16bee6a95f85a"
+  },
+  "sonarr": {
+   "file": "icons/sonarr.svg",
+   "sha256": "a5debe565281eb16b746d75b9ce72e22f2fb15c19b4f55428fdf62b84be79306"
+  },
+  "speedtest-tracker": {
+   "file": "icons/speedtest-tracker.png",
+   "sha256": "1c02bfae6fc83f5209c757bb789e775713455440d5fd834d48a425a7b58ea637"
+  },
+  "spoolman": {
+   "file": "icons/spoolman.svg",
+   "sha256": "ab6ed4ac4c939b092e2b7172e32dfd14594e0377f406f62b614779d344fa01da"
+  },
+  "stirling-pdf": {
+   "file": "icons/stirling-pdf.svg",
+   "sha256": "09b653138e5d13b640ad94ca097b89200337dfb1c7b19dbea038853d12007bdb"
+  },
+  "suwayomi": {
+   "file": "icons/suwayomi.svg",
+   "sha256": "b0a52f573e966d0c9afc710c72419873f14d1b0a2f19211aab7849a0dc7d3b9a"
+  },
+  "syncthing": {
+   "file": "icons/syncthing.svg",
+   "sha256": "65d1430f7522bea0507259929f0033d7c62539d14757d7c6f5b62574eb4da2d3"
+  },
+  "tautulli": {
+   "file": "icons/tautulli.svg",
+   "sha256": "f792a23f20b977aeac135cfc9aceb5589fa27e68160b7a278a539ff83621419c"
+  },
+  "tdarr": {
+   "file": "icons/tdarr.svg",
+   "sha256": "f9debe4eca48b60e90e06ac61ccee1054742261d62dc9145012b37621ddce469"
+  },
+  "teamspeak": {
+   "file": "icons/teamspeak.svg",
+   "sha256": "aa8df765272cb155c77334780fbd89319bbbeac287ffcf952e5a0a21adfdecbe"
+  },
+  "thelounge": {
+   "file": "icons/thelounge.svg",
+   "sha256": "4852f3609a9d5f026f1d2952981c0e29585e1691329aa22acaeb2fcc70a43cab"
+  },
+  "transmission": {
+   "file": "icons/transmission.svg",
+   "sha256": "f834ca2d002afebe8cda5d500512797d4fb97256ad38cdea1c93aea422b874de"
+  },
+  "trilium": {
+   "file": "icons/trilium.svg",
+   "sha256": "2eaa4ff3b1caf4829a3ec65e25a00d128f5d163fd6bfb5fa0df94f325487920b"
+  },
+  "twofauth": {
+   "file": "icons/twofauth.svg",
+   "sha256": "f48c792c9508b71cf47a389700ddb3f983a52e9759f60ff23702cfba70faa7f8"
+  },
+  "unmanic": {
+   "file": "icons/unmanic.png",
+   "sha256": "dfd6d1e36d0b93e141d64590724760185ab9b39a32b9aec15e99b66e8a78c180"
+  },
+  "uptime-kuma": {
+   "file": "icons/uptime-kuma.svg",
+   "sha256": "f3caa8a8bac253a77fa2ae7e7bc9b062b55a006abd787b111533714152ec744c"
+  },
+  "vaultwarden": {
+   "file": "icons/vaultwarden.svg",
+   "sha256": "afa3af723b4de7f502d2cc962352842a5cb41026bb5940a9f970cb5271b9472b"
+  },
+  "vikunja": {
+   "file": "icons/vikunja.svg",
+   "sha256": "1d360d3537390470b74763d4e444735956c968151e5ab6c4cd8d64dae9a9e5ab"
+  },
+  "wallabag": {
+   "file": "icons/wallabag.svg",
+   "sha256": "a433d3d12562afacf772b2b9ca1e5a985d5a8c638218a67710cf1ff66fba9231"
+  },
+  "wallos": {
+   "file": "icons/wallos.png",
+   "sha256": "82c4ef1f0b66eff45d999a2ae4557830a55d055179ac7b65bfd30090b1a3ee10"
+  },
+  "whisper": {
+   "file": "icons/whisper.svg",
+   "sha256": "8a6030406f34ee761c3d60dd95cc49af8c3ca1c9f45b61a3d8648d60c91cba62"
+  },
+  "wikijs": {
+   "file": "icons/wikijs.svg",
+   "sha256": "5d6a94a4de7f73e79d9978063c05f9eafb9ad0d38c379870267662bba9e34c59"
+  },
+  "wordpress": {
+   "file": "icons/wordpress.svg",
+   "sha256": "49dae7eb6d790fff860990cf5be51bd53c21d1e33e22c7a99f29583ab073b34a"
+  },
+  "zipline": {
+   "file": "icons/zipline.svg",
+   "sha256": "6ae60eea77a09f2fb0254d0cd9875794b4e9fd20e1d4a2a7be3cb1f5646d2b0a"
+  }
+ }
 }
