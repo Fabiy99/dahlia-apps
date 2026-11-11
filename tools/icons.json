@@ -1,0 +1,14 @@
+{
+  "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/",
+  "names": {
+    "actual": "actual-budget",
+    "adguard": "adguard-home",
+    "drawio": "draw-io",
+    "mylar3": "mylar",
+    "pyload-ng": "pyload",
+    "rdtclient": "rdt-client",
+    "registry": "docker",
+    "twofauth": "2fauth",
+    "whisper": "openai"
+  }
+}
