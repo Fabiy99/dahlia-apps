@@ -10,7 +10,7 @@ web: {port: 9001, public_port: 8320}
 login: {user: "admin", password: "{SECRET_ADMIN}"}
 services:
   app:
-    image: etherpad/etherpad:3.3.16
+    image: etherpad/etherpad:3.3.17
     depends_on: [db]
     environment:
       DB_TYPE: "postgres"

@@ -12,7 +12,7 @@ notes:
 web: {port: 8080, public_port: 8317}
 services:
   app:
-    image: leantime/leantime:3.13.2
+    image: leantime/leantime:3.14.0
     depends_on: [db]
     volumes:
       - {container: /var/www/html/userfiles, appdata: userfiles}

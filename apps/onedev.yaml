@@ -12,7 +12,7 @@ notes:
 web: {port: 6610, public_port: 8345}
 services:
   app:
-    image: 1dev/server:17.1.2
+    image: 1dev/server:17.2.0
     lan_ports:
       - {container: 6611, host: 6611, protocol: tcp}
     volumes:

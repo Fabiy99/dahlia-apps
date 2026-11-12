@@ -8,7 +8,7 @@ description:
 web: {port: 8080, public_port: 8293}
 services:
   app:
-    image: searxng/searxng:2026.11.9-57ff753ad
+    image: searxng/searxng:2026.11.12-de722ab1b
     volumes:
       - {container: /etc/searxng, appdata: config}
     environment:

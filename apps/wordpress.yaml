@@ -12,7 +12,7 @@ notes:
 web: {port: 80, public_port: 8325}
 services:
   app:
-    image: wordpress:6.9.4-php8.3-apache
+    image: wordpress:6.9.4-php8.5-apache
     depends_on: [db]
     volumes:
       - {container: /var/www/html, appdata: html}

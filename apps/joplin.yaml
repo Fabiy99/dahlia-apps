@@ -11,7 +11,7 @@ notes:
 web: {port: 22300, public_port: 22300}
 services:
   app:
-    image: joplin/server:3.7.4
+    image: joplin/server:3.7.5
     depends_on: [db]
     environment:
       APP_PORT: "22300"

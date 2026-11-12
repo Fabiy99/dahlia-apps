@@ -8,7 +8,7 @@ description:
 web: {port: 8181, public_port: 8181}
 services:
   app:
-    image: ghcr.io/linuxserver/tautulli:version-v2.18.2
+    image: ghcr.io/linuxserver/tautulli:version-v2.19.1
     volumes:
       - {container: /config, appdata: config}
     environment:

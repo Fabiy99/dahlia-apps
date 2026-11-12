@@ -11,7 +11,7 @@ notes:
 web: {port: 8080, public_port: 8294}
 services:
   app:
-    image: jenkins/jenkins:2.580.2-lts-jdk21
+    image: jenkins/jenkins:2.580.2-lts-jdk25
     user: "{PUID}:{PGID}"
     volumes:
       - {container: /var/jenkins_home, appdata: home}

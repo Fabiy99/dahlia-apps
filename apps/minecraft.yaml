@@ -10,7 +10,7 @@ notes:
   en: "Installing it accepts the Minecraft EULA."
 services:
   app:
-    image: itzg/minecraft-server:2026.11.0-java21
+    image: itzg/minecraft-server:2026.11.0-java25
     lan_ports:
       - {container: 25565, host: 25565, protocol: tcp}
     volumes:

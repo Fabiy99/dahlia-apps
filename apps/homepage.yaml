@@ -9,7 +9,7 @@ website: https://gethomepage.dev/
 web: {port: 3000, public_port: 3015}
 services:
   app:
-    image: ghcr.io/gethomepage/homepage:v2.7.0
+    image: ghcr.io/gethomepage/homepage:v2.8.0
     volumes:
       - {container: /app/config, appdata: config}
     environment:

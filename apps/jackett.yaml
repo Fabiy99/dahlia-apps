@@ -8,7 +8,7 @@ description:
 web: {port: 9117, public_port: 9117}
 services:
   app:
-    image: ghcr.io/linuxserver/jackett:version-v0.24.3042
+    image: ghcr.io/linuxserver/jackett:version-v0.24.3047
     volumes:
       - {container: /config, appdata: config}
     environment:

@@ -10,7 +10,7 @@ web: {port: 2342, public_port: 2342}
 login: {user: "admin", password: "{SECRET_ADMIN}"}
 services:
   app:
-    image: photoprism/photoprism:261029
+    image: photoprism/photoprism:20220121
     gpu: true
     depends_on: [db]
     volumes:
